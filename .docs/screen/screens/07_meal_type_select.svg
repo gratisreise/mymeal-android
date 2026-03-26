@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="375" height="812" viewBox="0 0 375 812" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0df214;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0bc911;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Semi-transparent overlay -->
+  <rect width="375" height="812" fill="#111811" opacity="0.5" />
+
+  <!-- Bottom Sheet -->
+  <g transform="translate(0, 250)">
+    <!-- Handle -->
+    <rect x="145" y="10" width="85" height="5" rx="2.5" fill="#e5e7eb" />
+
+    <!-- Content Container -->
+    <rect y="30" width="375" height="532" rx="24" fill="#ffffff" />
+
+    <!-- Header -->
+    <text x="30" y="80" font-family="SF Pro Display" font-size="22" font-weight="700" fill="#111811">어떤 식사인가요?</text>
+
+    <!-- Close Button -->
+    <g transform="translate(330, 65)">
+      <circle cx="15" cy="15" r="15" fill="#f5f8f6" />
+      <line x1="10" y1="10" x2="20" y2="20" stroke="#608a62" stroke-width="2" />
+      <line x1="20" y1="10" x2="10" y2="20" stroke="#608a62" stroke-width="2" />
+    </g>
+
+    <!-- Time Hint -->
+    <g transform="translate(30, 120)">
+      <rect width="315" height="40" rx="12" fill="#4DB6AC" opacity="0.15" />
+      <text x="157.5" y="26" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#4DB6AC">지금은 점심 식사 시간이네요 ☀️</text>
+    </g>
+
+    <!-- Meal Type Buttons -->
+    <!-- Breakfast -->
+    <g transform="translate(30, 180)">
+      <rect width="315" height="72" rx="16" fill="#f5f8f6" stroke="#e5e7eb" stroke-width="1" />
+      <circle cx="40" cy="36" r="24" fill="#FFB74D" opacity="0.2" />
+      <text x="40" y="42" text-anchor="middle" font-size="24">🌅</text>
+      <text x="80" y="42" font-family="SF Pro Display" font-size="18" font-weight="600" fill="#111811">아침</text>
+      <text x="285" y="42" text-anchor="end" font-family="SF Pro Display" font-size="14" fill="#608a62">06:00 - 10:00</text>
+    </g>
+
+    <!-- Lunch - Selected -->
+    <g transform="translate(30, 265)">
+      <rect width="315" height="72" rx="16" fill="#4DB6AC" opacity="0.15" stroke="#4DB6AC" stroke-width="2" />
+      <circle cx="40" cy="36" r="24" fill="#4DB6AC" />
+      <text x="40" y="42" text-anchor="middle" font-size="24">☀️</text>
+      <text x="80" y="42" font-family="SF Pro Display" font-size="18" font-weight="600" fill="#111811">점심</text>
+      <circle cx="285" cy="36" r="12" fill="#4DB6AC" />
+      <path d="M279 36 L283 40 L291 32" stroke="#ffffff" stroke-width="2" fill="none" />
+    </g>
+
+    <!-- Dinner -->
+    <g transform="translate(30, 350)">
+      <rect width="315" height="72" rx="16" fill="#f5f8f6" stroke="#e5e7eb" stroke-width="1" />
+      <circle cx="40" cy="36" r="24" fill="#7986CB" opacity="0.2" />
+      <text x="40" y="42" text-anchor="middle" font-size="24">🌙</text>
+      <text x="80" y="42" font-family="SF Pro Display" font-size="18" font-weight="600" fill="#111811">저녁</text>
+      <text x="285" y="42" text-anchor="end" font-family="SF Pro Display" font-size="14" fill="#608a62">17:00 - 21:00</text>
+    </g>
+
+    <!-- Snack -->
+    <g transform="translate(30, 435)">
+      <rect width="315" height="72" rx="16" fill="#f5f8f6" stroke="#e5e7eb" stroke-width="1" />
+      <circle cx="40" cy="36" r="24" fill="#BA68C8" opacity="0.2" />
+      <text x="40" y="42" text-anchor="middle" font-size="24">🍪</text>
+      <text x="80" y="42" font-family="SF Pro Display" font-size="18" font-weight="600" fill="#111811">간식</text>
+      <text x="285" y="42" text-anchor="end" font-family="SF Pro Display" font-size="14" fill="#608a62">하루 종일</text>
+    </g>
+  </g>
+
+  <!-- Home Indicator -->
+  <rect x="120" y="798" width="135" height="5" rx="2.5" fill="#111811" />
+</svg>

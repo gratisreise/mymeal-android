@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="375" height="812" viewBox="0 0 375 812" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0df214;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0bc911;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="375" height="812" fill="#f5f8f6" />
+
+  <!-- Status Bar -->
+  <rect y="0" width="375" height="44" fill="#f5f8f6" />
+  <text x="30" y="28" font-family="SF Pro Display" font-size="14" font-weight="600" fill="#111811">9:41</text>
+  <circle cx="330" cy="22" r="3" fill="#111811" />
+  <rect x="338" y="16" width="18" height="10" rx="2" stroke="#111811" stroke-width="1.5" fill="none" />
+  <rect x="340" y="18" width="14" height="6" rx="1" fill="#111811" />
+
+  <!-- Header -->
+  <text x="30" y="85" font-family="SF Pro Display" font-size="28" font-weight="700" fill="#111811">인사이트</text>
+
+  <!-- Tabs -->
+  <g transform="translate(0, 110)">
+    <rect width="375" height="50" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <!-- Best Meals Tab - Active -->
+    <rect x="5" y="5" width="85" height="40" rx="12" fill="#0df214" opacity="0.15" />
+    <text x="47.5" y="30" text-anchor="middle" font-family="SF Pro Display" font-size="13" font-weight="600" fill="#0bc911">베스트</text>
+
+    <!-- Worst Meals Tab -->
+    <text x="155" y="30" text-anchor="middle" font-family="SF Pro Display" font-size="13" fill="#608a62">워스트</text>
+
+    <!-- Patterns Tab -->
+    <text x="240" y="30" text-anchor="middle" font-family="SF Pro Display" font-size="13" fill="#608a62">내 패턴</text>
+
+    <!-- Trends Tab -->
+    <text x="320" y="30" text-anchor="middle" font-family="SF Pro Display" font-size="13" fill="#608a62">트렌드</text>
+  </g>
+
+  <!-- Filter -->
+  <g transform="translate(20, 180)">
+    <rect width="335" height="40" rx="12" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <!-- Week - Selected -->
+    <rect x="15" y="8" width="55" height="24" rx="8" fill="#0bc911" />
+    <text x="42.5" y="25" text-anchor="middle" font-family="SF Pro Display" font-size="12" font-weight="600" fill="#ffffff">주간</text>
+
+    <text x="130" y="25" text-anchor="middle" font-family="SF Pro Display" font-size="12" fill="#608a62">월간</text>
+    <text x="210" y="25" text-anchor="middle" font-family="SF Pro Display" font-size="12" fill="#608a62">전체</text>
+  </g>
+
+  <!-- Ranking Cards -->
+  <!-- #1 Gold -->
+  <g transform="translate(20, 240)">
+    <rect width="335" height="100" rx="16" fill="#ffffff" stroke="#FFC107" stroke-width="2" />
+
+    <!-- Badge -->
+    <circle cx="30" cy="30" r="18" fill="#FFC107" />
+    <text x="30" y="36" text-anchor="middle" font-family="SF Pro Display" font-size="16" font-weight="700" fill="#ffffff">1</text>
+
+    <!-- Photo -->
+    <rect x="60" y="15" width="70" height="70" rx="12" fill="#0df214" opacity="0.2" />
+    <text x="95" y="58" text-anchor="middle" font-size="28">🥗</text>
+
+    <!-- Info -->
+    <g transform="translate(145, 40)">
+      <text x="0" y="0" font-family="SF Pro Display" font-size="16" font-weight="600" fill="#111811">그린 샐러드</text>
+      <text x="0" y="22" font-family="SF Pro Display" font-size="13" fill="#608a62">2월 10일 점심</text>
+      <text x="0" y="45" font-family="SF Pro Display" font-size="12" fill="#0df214" font-weight="600">컨디션 점수 98</text>
+    </g>
+
+    <!-- Action -->
+    <g transform="translate(280, 50)">
+      <rect x="0" y="0" width="50" height="28" rx="8" fill="#0df214" opacity="0.15" />
+      <text x="25" y="19" text-anchor="middle" font-family="SF Pro Display" font-size="11" font-weight="600" fill="#0bc911">다시 먹기</text>
+    </g>
+  </g>
+
+  <!-- #2 Silver -->
+  <g transform="translate(20, 355)">
+    <rect width="335" height="100" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <!-- Badge -->
+    <circle cx="30" cy="30" r="18" fill="#C0C0C0" />
+    <text x="30" y="36" text-anchor="middle" font-family="SF Pro Display" font-size="16" font-weight="700" fill="#ffffff">2</text>
+
+    <!-- Photo -->
+    <rect x="60" y="15" width="70" height="70" rx="12" fill="#FFB74D" opacity="0.2" />
+    <text x="95" y="58" text-anchor="middle" font-size="28">🥣</text>
+
+    <!-- Info -->
+    <g transform="translate(145, 40)">
+      <text x="0" y="0" font-family="SF Pro Display" font-size="16" font-weight="600" fill="#111811">오트밀</text>
+      <text x="0" y="22" font-family="SF Pro Display" font-size="13" fill="#608a62">2월 9일 아침</text>
+      <text x="0" y="45" font-family="SF Pro Display" font-size="12" fill="#0df214" font-weight="600">컨디션 점수 95</text>
+    </g>
+
+    <!-- Action -->
+    <g transform="translate(280, 50)">
+      <rect x="0" y="0" width="50" height="28" rx="8" fill="#f5f8f6" stroke="#e5e7eb" stroke-width="1" />
+      <text x="25" y="19" text-anchor="middle" font-family="SF Pro Display" font-size="11" fill="#608a62">다시 먹기</text>
+    </g>
+  </g>
+
+  <!-- #3 Bronze -->
+  <g transform="translate(20, 470)">
+    <rect width="335" height="100" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <!-- Badge -->
+    <circle cx="30" cy="30" r="18" fill="#CD7F32" />
+    <text x="30" y="36" text-anchor="middle" font-family="SF Pro Display" font-size="16" font-weight="700" fill="#ffffff">3</text>
+
+    <!-- Photo -->
+    <rect x="60" y="15" width="70" height="70" rx="12" fill="#4DB6AC" opacity="0.2" />
+    <text x="95" y="58" text-anchor="middle" font-size="28">🐟</text>
+
+    <!-- Info -->
+    <g transform="translate(145, 40)">
+      <text x="0" y="0" font-family="SF Pro Display" font-size="16" font-weight="600" fill="#111811">구이 조림</text>
+      <text x="0" y="22" font-family="SF Pro Display" font-size="13" fill="#608a62">2월 8일 저녁</text>
+      <text x="0" y="45" font-family="SF Pro Display" font-size="12" fill="#0df214" font-weight="600">컨디션 점수 92</text>
+    </g>
+
+    <!-- Action -->
+    <g transform="translate(280, 50)">
+      <rect x="0" y="0" width="50" height="28" rx="8" fill="#f5f8f6" stroke="#e5e7eb" stroke-width="1" />
+      <text x="25" y="19" text-anchor="middle" font-family="SF Pro Display" font-size="11" fill="#608a62">다시 먹기</text>
+    </g>
+  </g>
+
+  <!-- Bottom Navigation -->
+  <g transform="translate(0, 712)">
+    <rect width="375" height="100" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <!-- Home -->
+    <g transform="translate(40, 25)">
+      <text x="20" y="20" text-anchor="middle" font-size="20" opacity="0.5">🏠</text>
+      <text x="20" y="45" text-anchor="middle" font-family="SF Pro Display" font-size="10" fill="#608a62">홈</text>
+    </g>
+
+    <!-- Insights - Active -->
+    <g transform="translate(110, 25)">
+      <circle cx="20" cy="15" r="18" fill="#0df214" opacity="0.15" />
+      <text x="20" y="20" text-anchor="middle" font-size="20">💡</text>
+      <text x="20" y="45" text-anchor="middle" font-family="SF Pro Display" font-size="10" font-weight="600" fill="#0bc911">인사이트</text>
+    </g>
+
+    <!-- FAB Add Button -->
+    <g transform="translate(187.5, -20)">
+      <circle cx="0" cy="0" r="32" fill="url(#primaryGradient)" />
+      <line x1="-12" y1="0" x2="12" y2="0" stroke="#ffffff" stroke-width="3" />
+      <line x1="0" y1="-12" x2="0" y2="12" stroke="#ffffff" stroke-width="3" />
+    </g>
+
+    <!-- Journal -->
+    <g transform="translate(220, 25)">
+      <text x="20" y="20" text-anchor="middle" font-size="20" opacity="0.5">📖</text>
+      <text x="20" y="45" text-anchor="middle" font-family="SF Pro Display" font-size="10" fill="#608a62">저널</text>
+    </g>
+
+    <!-- Profile -->
+    <g transform="translate(290, 25)">
+      <text x="20" y="20" text-anchor="middle" font-size="20" opacity="0.5">👤</text>
+      <text x="20" y="45" text-anchor="middle" font-family="SF Pro Display" font-size="10" fill="#608a62">프로필</text>
+    </g>
+  </g>
+
+  <!-- Home Indicator -->
+  <rect x="120" y="798" width="135" height="5" rx="2.5" fill="#111811" />
+</svg>

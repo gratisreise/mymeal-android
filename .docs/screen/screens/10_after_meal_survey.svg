@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="375" height="812" viewBox="0 0 375 812" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0df214;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0bc911;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="375" height="812" fill="#f5f8f6" />
+
+  <!-- Status Bar -->
+  <rect y="0" width="375" height="44" fill="#f5f8f6" />
+  <text x="30" y="28" font-family="SF Pro Display" font-size="14" font-weight="600" fill="#111811">9:41</text>
+  <circle cx="330" cy="22" r="3" fill="#111811" />
+  <rect x="338" y="16" width="18" height="10" rx="2" stroke="#111811" stroke-width="1.5" fill="none" />
+  <rect x="340" y="18" width="14" height="6" rx="1" fill="#111811" />
+
+  <!-- Header -->
+  <g transform="translate(0, 60)">
+    <!-- Close Button -->
+    <g transform="translate(30, 10)">
+      <circle cx="15" cy="15" r="15" fill="#f5f8f6" />
+      <line x1="10" y1="10" x2="20" y2="20" stroke="#608a62" stroke-width="2" />
+      <line x1="20" y1="10" x2="10" y2="20" stroke="#608a62" stroke-width="2" />
+    </g>
+
+    <text x="187.5" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="22" font-weight="700" fill="#111811">식후 컨디션 체크</text>
+  </g>
+
+  <!-- Meal Info Card -->
+  <g transform="translate(20, 120)">
+    <rect width="335" height="80" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <!-- Photo Thumbnail -->
+    <rect x="15" y="15" width="50" height="50" rx="10" fill="#4DB6AC" opacity="0.2" />
+    <text x="40" y="48" text-anchor="middle" font-size="24">🍱</text>
+
+    <!-- Meal Info -->
+    <g transform="translate(80, 35)">
+      <rect x="0" y="-10" width="45" height="20" rx="6" fill="#4DB6AC" opacity="0.2" />
+      <text x="22.5" y="4" text-anchor="middle" font-family="SF Pro Display" font-size="11" font-weight="600" fill="#4DB6AC">점심</text>
+      <text x="0" y="28" font-family="SF Pro Display" font-size="16" font-weight="600" fill="#111811">돈까스 정식</text>
+    </g>
+
+    <!-- Time -->
+    <text x="320" y="55" text-anchor="end" font-family="SF Pro Display" font-size="14" fill="#608a62">12:30</text>
+  </g>
+
+  <!-- Sliders Section -->
+  <text x="30" y="240" font-family="SF Pro Display" font-size="16" font-weight="600" fill="#111811">현재 상태를 알려주세요</text>
+
+  <!-- Digestion Slider -->
+  <g transform="translate(20, 260)">
+    <rect width="335" height="80" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <text x="20" y="28" font-family="SF Pro Display" font-size="14" fill="#608a62">소화 상태</text>
+
+    <!-- Emojis -->
+    <g transform="translate(20, 55)">
+      <text x="20" y="0" text-anchor="middle" font-size="20">😣</text>
+      <text x="85" y="0" text-anchor="middle" font-size="20">😕</text>
+      <text x="150" y="0" text-anchor="middle" font-size="20">😐</text>
+      <text x="215" y="0" text-anchor="middle" font-size="20">🙂</text>
+      <text x="280" y="0" text-anchor="middle" font-size="20">😊</text>
+
+      <!-- Slider Track -->
+      <line x1="20" y1="20" x2="280" y2="20" stroke="#e5e7eb" stroke-width="4" stroke-linecap="round" />
+
+      <!-- Slider Fill (selected value: 4) -->
+      <line x1="20" y1="20" x2="230" y2="20" stroke="#0df214" stroke-width="4" stroke-linecap="round" />
+
+      <!-- Slider Thumb -->
+      <circle cx="230" cy="20" r="10" fill="#0df214" stroke="#ffffff" stroke-width="3" />
+    </g>
+  </g>
+
+  <!-- Fullness Slider -->
+  <g transform="translate(20, 355)">
+    <rect width="335" height="80" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <text x="20" y="28" font-family="SF Pro Display" font-size="14" fill="#608a62">포만감</text>
+
+    <!-- Emojis -->
+    <g transform="translate(20, 55)">
+      <text x="20" y="0" text-anchor="middle" font-size="20">🤤</text>
+      <text x="85" y="0" text-anchor="middle" font-size="20">😋</text>
+      <text x="150" y="0" text-anchor="middle" font-size="20">😌</text>
+      <text x="215" y="0" text-anchor="middle" font-size="20">😊</text>
+      <text x="280" y="0" text-anchor="middle" font-size="20">😅</text>
+
+      <!-- Slider Track -->
+      <line x1="20" y1="20" x2="280" y2="20" stroke="#e5e7eb" stroke-width="4" stroke-linecap="round" />
+
+      <!-- Slider Fill (selected value: 3) -->
+      <line x1="20" y1="20" x2="160" y2="20" stroke="#FFC107" stroke-width="4" stroke-linecap="round" />
+
+      <!-- Slider Thumb -->
+      <circle cx="160" cy="20" r="10" fill="#FFC107" stroke="#ffffff" stroke-width="3" />
+    </g>
+  </g>
+
+  <!-- Energy Slider -->
+  <g transform="translate(20, 450)">
+    <rect width="335" height="80" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <text x="20" y="28" font-family="SF Pro Display" font-size="14" fill="#608a62">에너지 레벨</text>
+
+    <!-- Emojis -->
+    <g transform="translate(20, 55)">
+      <text x="20" y="0" text-anchor="middle" font-size="20">😴</text>
+      <text x="85" y="0" text-anchor="middle" font-size="20">🥱</text>
+      <text x="150" y="0" text-anchor="middle" font-size="20">😐</text>
+      <text x="215" y="0" text-anchor="middle" font-size="20">🙂</text>
+      <text x="280" y="0" text-anchor="middle" font-size="20">⚡</text>
+
+      <!-- Slider Track -->
+      <line x1="20" y1="20" x2="280" y2="20" stroke="#e5e7eb" stroke-width="4" stroke-linecap="round" />
+
+      <!-- Slider Fill (selected value: 2) -->
+      <line x1="20" y1="20" x2="150" y2="20" stroke="#0df214" stroke-width="4" stroke-linecap="round" />
+
+      <!-- Slider Thumb -->
+      <circle cx="150" cy="20" r="10" fill="#0df214" stroke="#ffffff" stroke-width="3" />
+    </g>
+  </g>
+
+  <!-- Symptoms Checklist -->
+  <g transform="translate(20, 545)">
+    <rect width="335" height="80" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <text x="20" y="28" font-family="SF Pro Display" font-size="14" fill="#608a62">증상이 있다면 선택해주세요</text>
+
+    <!-- Symptom Tags -->
+    <g transform="translate(15, 45)">
+      <!-- Selected -->
+      <rect x="0" y="0" width="65" height="28" rx="14" fill="#FF5252" opacity="0.2" stroke="#FF5252" stroke-width="1" />
+      <text x="32.5" y="19" text-anchor="middle" font-family="SF Pro Display" font-size="12" fill="#FF5252">속쓰림</text>
+
+      <rect x="75" y="0" width="65" height="28" rx="14" fill="#f5f8f6" stroke="#e5e7eb" stroke-width="1" />
+      <text x="107.5" y="19" text-anchor="middle" font-family="SF Pro Display" font-size="12" fill="#608a62">가스 찬</text>
+
+      <!-- Selected -->
+      <rect x="150" y="0" width="65" height="28" rx="14" fill="#FF5252" opacity="0.2" stroke="#FF5252" stroke-width="1" />
+      <text x="182.5" y="19" text-anchor="middle" font-family="SF Pro Display" font-size="12" fill="#FF5252">배부펑</text>
+
+      <rect x="225" y="0" width="65" height="28" rx="14" fill="#f5f8f6" stroke="#e5e7eb" stroke-width="1" />
+      <text x="257.5" y="19" text-anchor="middle" font-family="SF Pro Display" font-size="12" fill="#608a62">두통</text>
+    </g>
+  </g>
+
+  <!-- Later Button -->
+  <text x="187.5" y="665" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#608a62">나중에 하기</text>
+
+  <!-- Submit Button -->
+  <g transform="translate(30, 690)">
+    <rect width="315" height="52" rx="26" fill="url(#primaryGradient)" />
+    <text x="157.5" y="33" text-anchor="middle" font-family="SF Pro Display" font-size="16" font-weight="600" fill="#ffffff">기록하기</text>
+  </g>
+
+  <!-- Home Indicator -->
+  <rect x="120" y="798" width="135" height="5" rx="2.5" fill="#111811" />
+</svg>

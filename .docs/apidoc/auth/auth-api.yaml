@@ -1,0 +1,829 @@
+openapi: 3.0.3
+info:
+  title: MyMeal Auth API
+  version: 1.0.0
+  description: |
+    MyMeal 서비스의 인증 API 명세서입니다.
+
+    이 API는 다음 기능을 제공합니다:
+    - 이메일 회원가입 및 로그인
+    - 소셜 로그인 (Google, Naver, Kakao)
+    - JWT 토큰 발급 및 갱신
+    - 로그아웃 및 회원 탈퇴
+
+  contact:
+    name: MyMeal API Support
+    email: support@mymeal-server.com
+
+  license:
+    name: MIT
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+  - url: https://api.mymeal-server.com
+    description: Production server
+
+tags:
+  - name: Authentication
+    description: 인증 관련 API
+
+paths:
+  /api/v1/auth/register:
+    post:
+      tags:
+        - Authentication
+      summary: 이메일 회원가입
+      description: |
+        이메일로 새로운 회원을 등록합니다.
+
+        **비밀번호 요구사항:**
+        - 최소 8자 이상
+        - 영문, 숫자, 특수문자 조합
+
+        **유효성 검사:**
+        - 이메일: 필수, 유효한 이메일 형식
+        - 이름: 필수, 최대 50자
+      operationId: register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+            examples:
+              normal:
+                summary: 정상 회원가입 요청
+                value:
+                  email: user@example.com
+                  password: "Password123!"
+                  name: 홍길동
+                  fcmToken: "fcm_token_string"
+      responses:
+        '201':
+          description: 회원가입 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse_Void'
+        '400':
+          description: 유효성 검증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                invalidEmail:
+                  summary: 잘못된 이메일 형식
+                  value:
+                    success: false
+                    timestamp: "2025-02-24T10:30:00"
+                    error:
+                      code: VAL_001
+                      message: "이메일 형식이 올바르지 않습니다."
+                duplicateEmail:
+                  summary: 중복 이메일
+                  value:
+                    success: false
+                    timestamp: "2025-02-24T10:30:00"
+                    error:
+                      code: MEMBER_002
+                      message: "이미 사용 중인 이메일입니다."
+                weakPassword:
+                  summary: 약한 비밀번호
+                  value:
+                    success: false
+                    timestamp: "2025-02-24T10:30:00"
+                    error:
+                      code: VAL_003
+                      message: "비밀번호는 영문, 숫자, 특수문자를 포함해야 합니다."
+
+  /api/v1/auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: 이메일 로그인
+      description: |
+        이메일과 비밀번호로 로그인합니다.
+
+        성공 시 JWT 액세스 토큰과 리프레시 토큰을 발급합니다.
+
+        **토큰 정보:**
+        - Access Token: 1시간 유효
+        - Refresh Token: 14일 유효
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            examples:
+              normal:
+                summary: 정상 로그인 요청
+                value:
+                  email: user@example.com
+                  password: "Password123!"
+                  fcmToken: "fcm_token_string"
+      responses:
+        '200':
+          description: 로그인 성공
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse_AuthResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/AuthResponse'
+              examples:
+                success:
+                  summary: 로그인 성공
+                  value:
+                    success: true
+                    timestamp: "2025-02-24T10:30:00"
+                    data:
+                      accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                      refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                      member:
+                        id: 1
+                        email: user@example.com
+                        name: 홍길동
+                        profileImage: "https://s3.amazonaws.com/profile.jpg"
+                        provider: EMAIL
+                        isActive: true
+                        lastLoginAt: "2025-02-24T10:30:00"
+        '400':
+          description: 유효성 검증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                invalidCredentials:
+                  summary: 잘못된 이메일 또는 비밀번호
+                  value:
+                    success: false
+                    timestamp: "2025-02-24T10:30:00"
+                    error:
+                      code: AUTH_001
+                      message: "이메일 또는 비밀번호가 올바르지 않습니다."
+                deactivated:
+                  summary: 비활성화된 회원
+                  value:
+                    success: false
+                    timestamp: "2025-02-24T10:30:00"
+                    error:
+                      code: MEMBER_006
+                      message: "비활성화된 회원입니다."
+
+  /api/v1/auth/oauth:
+    post:
+      tags:
+        - Authentication
+      summary: 소셜 로그인
+      description: |
+        소셜 로그인을 수행합니다.
+
+        **지원하는 제공자:**
+        - GOOGLE: Google OAuth 2.0
+        - NAVER: Naver OAuth 2.0
+        - KAKAO: Kakao OAuth 2.0
+
+        **인증 flow:**
+        1. 클라이언트는 소셜 제공자의 인증 페이지로 리다이렉트
+        2. 사용자가 인증 완료 후 authorization code 수신
+        3. 해당 code를 서버로 전송하여 토큰 발급
+
+        **참고:** EMAIL 제공자는 소셜 로그인에서 사용할 수 없습니다.
+      operationId: oauthLogin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OAuthRequest'
+            examples:
+              google:
+                summary: Google 로그인
+                value:
+                  provider: GOOGLE
+                  code: "4/0AanrSbXYZ123..."
+                  fcmToken: "fcm_token_string"
+              naver:
+                summary: Naver 로그인
+                value:
+                  provider: NAVER
+                  code: "naver_auth_code_123"
+                  fcmToken: "fcm_token_string"
+              kakao:
+                summary: Kakao 로그인
+                value:
+                  provider: KAKAO
+                  code: "kakao_auth_code_456"
+                  fcmToken: "fcm_token_string"
+      responses:
+        '200':
+          description: 소셜 로그인 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse_AuthResponse'
+              examples:
+                googleSuccess:
+                  summary: Google 로그인 성공
+                  value:
+                    success: true
+                    timestamp: "2025-02-24T10:30:00"
+                    data:
+                      accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                      refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                      member:
+                        id: 2
+                        email: user@gmail.com
+                        name: 김청
+                        profileImage: "https://lh3.googleusercontent.com/..."
+                        provider: GOOGLE
+                        isActive: true
+                        lastLoginAt: "2025-02-24T10:30:00"
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unsupportedProvider:
+                  summary: 지원하지 않는 제공자
+                  value:
+                    success: false
+                    timestamp: "2025-02-24T10:30:00"
+                    error:
+                      code: AUTH_006
+                      message: "지원하지 않는 소셜 로그인 제공자입니다."
+        '401':
+          description: OAuth 인증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                tokenFailed:
+                  summary: 토큰 검증 실패
+                  value:
+                    success: false
+                    timestamp: "2025-02-24T10:30:00"
+                    error:
+                      code: AUTH_005
+                      message: "소셜 로그인 토큰 검증에 실패했습니다."
+        '502':
+          description: 외부 API 오류
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                apiFailed:
+                  summary: OAuth API 호출 실패
+                  value:
+                    success: false
+                    timestamp: "2025-02-24T10:30:00"
+                    error:
+                      code: AUTH_009
+                      message: "OAuth API 호출에 실패했습니다."
+
+  /api/v1/auth/refresh:
+    post:
+      tags:
+        - Authentication
+      summary: 토큰 갱신
+      description: |
+        리프레시 토큰을 사용하여 새로운 액세스 토큰을 발급받습니다.
+
+        **토큰 갱신 정책:**
+        - 리프레시 토큰이 유효한 경우 새로운 액세스 토큰 발급
+        - 리프레시 토큰도 함께 갱신됨
+        - 갱신된 리프레시 토큰은 이전 토큰을 무효화함
+
+        **보안:**
+        - 리프레시 토큰은 서버에서 블랙리스트 관리
+        - 로그아웃 시 리프레시 토큰이 블랙리스트에 등록됨
+      operationId: refreshToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+            examples:
+              normal:
+                summary: 토큰 갱신 요청
+                value:
+                  refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      responses:
+        '200':
+          description: 토큰 갱신 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse_AuthResponse'
+              examples:
+                success:
+                  summary: 토큰 갱신 성공
+                  value:
+                    success: true
+                    timestamp: "2025-02-24T10:30:00"
+                    data:
+                      accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                      refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                      member:
+                        id: 1
+                        email: user@example.com
+                        name: 홍길동
+                        profileImage: "https://s3.amazonaws.com/profile.jpg"
+                        provider: EMAIL
+                        isActive: true
+                        lastLoginAt: "2025-02-24T10:30:00"
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 유효하지 않은 리프레시 토큰
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                invalidToken:
+                  summary: 유효하지 않은 토큰
+                  value:
+                    success: false
+                    timestamp: "2025-02-24T10:30:00"
+                    error:
+                      code: AUTH_004
+                      message: "리프레시 토큰이 유효하지 않습니다."
+                expiredToken:
+                  summary: 만료된 토큰
+                  value:
+                    success: false
+                    timestamp: "2025-02-24T10:30:00"
+                    error:
+                      code: AUTH_002
+                      message: "액세스 토큰이 만료되었습니다."
+
+  /api/v1/auth/logout:
+    post:
+      tags:
+        - Authentication
+      summary: 로그아웃
+      description: |
+        로그아웃하고 리프레시 토큰을 무효화합니다.
+
+        **로그아웃 처리:**
+        1. 리프레시 토큰을 블랙리스트에 등록
+        2. 해당 토큰으로의 재사용 방지
+        3. FCM 토큰 삭제 (선택사항)
+
+        **보안:**
+        - 로그아웃 후에도 액세스 토큰은 만료될 때까지 유효함
+        - 하지만 리프레시 토큰은 즉시 무효화됨
+        - 클라이언트는 로컬에 저장된 토큰 삭제 필요
+      operationId: logout
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+            examples:
+              normal:
+                summary: 로그아웃 요청
+                value:
+                  refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      responses:
+        '200':
+          description: 로그아웃 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse_Void'
+              examples:
+                success:
+                  summary: 로그아웃 성공
+                  value:
+                    success: true
+                    timestamp: "2025-02-24T10:30:00"
+                    data: null
+        '401':
+          description: 인증되지 않은 요청
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                notLoggedIn:
+                  summary: 로그인되지 않음
+                  value:
+                    success: false
+                    timestamp: "2025-02-24T10:30:00"
+                    error:
+                      code: AUTH_008
+                      message: "로그인이 필요한 서비스입니다."
+                invalidToken:
+                  summary: 유효하지 않은 토큰
+                  value:
+                    success: false
+                    timestamp: "2025-02-24T10:30:00"
+                    error:
+                      code: AUTH_003
+                      message: "유효하지 않은 토큰입니다."
+
+  /api/v1/auth/withdraw:
+    delete:
+      tags:
+        - Authentication
+      summary: 회원 탈퇴
+      description: |
+        회원을 탈퇴하고 모든 데이터를 삭제합니다.
+
+        **탈퇴 처리:**
+        1. 회원 계정을 소프트 delete 처리
+        2. 모든 식사 기록, 반응 데이터 보존 (통계 목적)
+        3. 개인 식별 정보는 즉시 삭제
+        4. 탈퇴 사유 기록
+
+        **데이터 보존 정책:**
+        - 회원 정보: 소프트 delete (deleted_at 설정)
+        - 식사/반응 데이터: 익명화하여 보존
+        - 탈퇴 기록: 별도 테이블에 영구 보존
+
+        **주의사항:**
+        - 탈퇴 후 30일간 재가입 제한
+        - 탈퇴 후 데이터 복구 불가능
+        - 소셜 로그인 연동 정보도 함께 삭제
+      operationId: withdraw
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WithdrawRequest'
+            examples:
+              notUseful:
+                summary: 서비스가 도움이 되지 않음
+                value:
+                  reason: SERVICE_NOT_USEFUL
+                  reasonDetail: "더 이상 사용하지 않게 되었습니다."
+              appIssues:
+                summary: 앱 사용 불편
+                value:
+                  reason: APP_ISSUES
+                  reasonDetail: "앱이 자주 멈춥니다."
+              privacy:
+                summary: 개인정보 우려
+                value:
+                  reason: PRIVACY_CONCERNS
+                  reasonDetail: null
+              alternative:
+                summary: 다른 서비스 이용
+                value:
+                  reason: FOUND_ALTERNATIVE
+                  reasonDetail: "다른 앱으로 이동합니다."
+              other:
+                summary: 기타
+                value:
+                  reason: OTHER
+                  reasonDetail: "개인 사정으로 탈퇴합니다."
+      responses:
+        '200':
+          description: 회원 탈퇴 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse_Void'
+              examples:
+                success:
+                  summary: 탈퇴 성공
+                  value:
+                    success: true
+                    timestamp: "2025-02-24T10:30:00"
+                    data: null
+        '400':
+          description: 유효성 검증 실패
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 인증되지 않은 요청
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 사용자를 찾을 수 없음
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                notFound:
+                  summary: 사용자 없음
+                  value:
+                    success: false
+                    timestamp: "2025-02-24T10:30:00"
+                    error:
+                      code: MEMBER_001
+                      message: "사용자를 찾을 수 없습니다."
+                alreadyWithdrawn:
+                  summary: 이미 탈퇴한 회원
+                  value:
+                    success: false
+                    timestamp: "2025-02-24T10:30:00"
+                    error:
+                      code: MEMBER_003
+                      message: "이미 탈퇴한 회원입니다."
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT 인증 방식입니다.
+
+        **헤더 형식:**
+        ```
+        Authorization: Bearer <access_token>
+        ```
+
+        **액세스 토큰:**
+        - 유효기간: 1시간
+        - 헤더에 포함하여 API 호출
+
+        **리프레시 토큰:**
+        - 유효기간: 14일
+        - /api/v1/auth/refresh endpoint에서 사용
+
+  schemas:
+    # ========================================
+    # Request Schemas
+    # ========================================
+
+    RegisterRequest:
+      type: object
+      required:
+        - email
+        - password
+        - name
+      properties:
+        email:
+          type: string
+          format: email
+          description: 회원가입할 이메일 주소
+          example: user@example.com
+          minLength: 1
+        password:
+          type: string
+          format: password
+          description: |
+            비밀번호 (8-20자, 영문+숫자+특수문자 조합)
+          example: "Password123!"
+          minLength: 8
+          maxLength: 20
+          pattern: '^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$'
+        name:
+          type: string
+          description: 사용자 이름
+          example: 홍길동
+          minLength: 1
+          maxLength: 50
+        fcmToken:
+          type: string
+          description: FCM 푸시 알림 토큰 (선택사항)
+          example: "fcm_token_string"
+          maxLength: 255
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: 로그인할 이메일 주소
+          example: user@example.com
+        password:
+          type: string
+          format: password
+          description: 비밀번호
+          example: "Password123!"
+        fcmToken:
+          type: string
+          description: FCM 푸시 알림 토큰 (선택사항)
+          example: "fcm_token_string"
+          maxLength: 255
+
+    OAuthRequest:
+      type: object
+      required:
+        - provider
+        - code
+      properties:
+        provider:
+          type: string
+          enum: [GOOGLE, NAVER, KAKAO]
+          description: 소셜 로그인 제공자
+          example: GOOGLE
+        code:
+          type: string
+          description: OAuth 인증 코드
+          example: "4/0AanrSbXYZ123..."
+          minLength: 1
+        fcmToken:
+          type: string
+          description: FCM 푸시 알림 토큰 (선택사항)
+          example: "fcm_token_string"
+          maxLength: 255
+
+    RefreshTokenRequest:
+      type: object
+      required:
+        - refreshToken
+      properties:
+        refreshToken:
+          type: string
+          description: 리프레시 토큰
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          minLength: 1
+
+    WithdrawRequest:
+      type: object
+      required:
+        - reason
+      properties:
+        reason:
+          type: string
+          enum:
+            - SERVICE_NOT_USEFUL
+            - APP_ISSUES
+            - PRIVACY_CONCERNS
+            - FOUND_ALTERNATIVE
+            - OTHER
+          description: |
+            탈퇴 사유
+
+            - SERVICE_NOT_USEFUL: 서비스가 도움이 되지 않음
+            - APP_ISSUES: 앱 사용 불편
+            - PRIVACY_CONCERNS: 개인정보 우려
+            - FOUND_ALTERNATIVE: 다른 서비스 이용
+            - OTHER: 기타
+          example: SERVICE_NOT_USEFUL
+        reasonDetail:
+          type: string
+          description: 탈퇴 사유 상세 (최대 500자)
+          example: "더 이상 사용하지 않게 되었습니다."
+          maxLength: 500
+
+    # ========================================
+    # Response Schemas
+    # ========================================
+
+    MemberResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: 회원 ID
+          example: 1
+        email:
+          type: string
+          format: email
+          description: 회원 이메일
+          example: user@example.com
+        name:
+          type: string
+          description: 회원 이름
+          example: 홍길동
+        profileImage:
+          type: string
+          format: uri
+          description: 프로필 이미지 URL
+          example: "https://s3.amazonaws.com/profile.jpg"
+          nullable: true
+        provider:
+          type: string
+          enum: [EMAIL, GOOGLE, NAVER, KAKAO]
+          description: 가입 유형
+          example: EMAIL
+        isActive:
+          type: boolean
+          description: 활성화 상태
+          example: true
+        lastLoginAt:
+          type: string
+          format: date-time
+          description: 마지막 로그인 시간
+          example: "2025-02-24T10:30:00"
+          nullable: true
+
+    AuthResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: JWT 액세스 토큰 (1시간 유효)
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        refreshToken:
+          type: string
+          description: JWT 리프레시 토큰 (14일 유효)
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        member:
+          $ref: '#/components/schemas/MemberResponse'
+
+    # ========================================
+    # Common Response Schemas
+    # ========================================
+
+    BaseResponse:
+      type: object
+      required:
+        - success
+        - timestamp
+      properties:
+        success:
+          type: boolean
+          description: 요청 성공 여부
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+          description: 응답 생성 시간
+          example: "2025-02-24T10:30:00"
+
+    SuccessResponse_Void:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            data:
+              type: object
+              nullable: true
+              description: 반환 데이터 (없음)
+              example: null
+
+    SuccessResponse_AuthResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          required:
+            - data
+          properties:
+            data:
+              $ref: '#/components/schemas/AuthResponse'
+
+    ErrorDetail:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          description: 에러 코드
+          example: AUTH_001
+        message:
+          type: string
+          description: 에러 메시지
+          example: "이메일 또는 비밀번호가 올바르지 않습니다."
+
+    ErrorResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          required:
+            - error
+          properties:
+            success:
+              type: boolean
+              example: false
+            error:
+              $ref: '#/components/schemas/ErrorDetail'

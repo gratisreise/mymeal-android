@@ -1,0 +1,501 @@
+openapi: 3.1.0
+info:
+  title: MyMeal Ranking API
+  description: |
+    MyMeal 랭킹 API 명세서
+
+    ## 개요
+    랭킹 기능은 사용자의 식사 기록을 식후 반응 점수 기준으로 정렬하여 최고/최저 식사 랭킹을 제공합니다.
+
+    ## 기능
+    1. 최고 식사 랭킹 - 점수가 높은 순으로 식사 랭킹 조회
+    2. 최저 식사 랭킹 - 점수가 낮은 순으로 식사 랭킹 조회
+
+    ## 랭킹 알고리즘
+    - 최고 랭킹: 점수 내림차순 → 식사 시간 내림차순
+    - 최저 랭킹: 점수 오름차순 → 식사 시간 내림차순
+    - 동점 처리: 동일 점수는 동일 순위 부여 (예: 1, 2, 2, 4...)
+    - 반응 필터링: 식후 반응이 기록된 식사만 포함
+  version: 1.0.0
+  contact:
+    name: MyMeal Team
+    email: api@mymeal.com
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: 로컬 개발 환경
+  - url: https://api.mymeal.com/api/v1
+    description: 프로덕션 환경
+
+tags:
+  - name: Ranking
+    description: 랭킹 조회
+
+security:
+  - BearerAuth: []
+
+paths:
+  # ========================================================================
+  # RANKING - 랭킹
+  # ========================================================================
+  /ranking/best:
+    get:
+      tags: [Ranking]
+      summary: 최고 식사 랭킹 조회
+      description: |
+        점수가 높은 순으로 식사 랭킹을 조회합니다.
+
+        ## 랭킹 기준
+        - 정렬: 종합 점수 내림차순 → 식사 시간 내림차순
+        - 대상: 식후 반응이 기록된 식사만 포함
+        - 동점: 동일 점수는 동일 순위 부여 (1, 2, 2, 4...)
+
+        ## 필터링
+        - 식사 유형별 필터링 (아침/점심/저녁/간식)
+        - 날짜 범위 필터링
+
+        ## UI 표시 가이드
+        - 순위 배지: 1위(금), 2위(은), 3위(동), 그 외(숫자)
+        - 등급 색상: GOOD(초록), NORMAL(노랑), BAD(빨강)
+        - 카드 레이아웃: 순위 | 사진 | 식사명 | 점수 | 등급 | 시간
+      operationId: getBestRanking
+      parameters:
+        - name: memberId
+          in: query
+          required: true
+          description: 회원 ID
+          schema:
+            type: integer
+            format: int64
+          example: 1
+        - name: mealType
+          in: query
+          required: false
+          description: 식사 유형 필터
+          schema:
+            type: string
+            enum: [BREAKFAST, LUNCH, DINNER, SNACK]
+          example: LUNCH
+        - name: startDate
+          in: query
+          required: false
+          description: 시작일 (yyyy-MM-dd)
+          schema:
+            type: string
+            format: date
+          example: "2025-02-01"
+        - name: endDate
+          in: query
+          required: false
+          description: 종료일 (yyyy-MM-dd)
+          schema:
+            type: string
+            format: date
+          example: "2025-02-28"
+        - name: page
+          in: query
+          required: false
+          description: 페이지 번호 (0부터 시작)
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          example: 0
+        - name: size
+          in: query
+          required: false
+          description: 페이지 크기 (최대 100)
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+          example: 10
+      responses:
+        '200':
+          description: 최고 식사 랭킹 조회 성공
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/RankingPageResponse'
+              examples:
+                success:
+                  value:
+                    success: true
+                    timestamp: "2025-02-24T12:00:00"
+                    data:
+                      items:
+                        - rank: 1
+                          mealId: 15
+                          mealName: "점심"
+                          photoUrl: "https://s3.amazonaws.com/bucket/meal15.jpg"
+                          mealTime: "2025-02-20T12:30:00"
+                          overallScore: 90.0
+                          grade: GOOD
+                          mealType: LUNCH
+                        - rank: 2
+                          mealId: 8
+                          mealName: "아침"
+                          photoUrl: "https://s3.amazonaws.com/bucket/meal8.jpg"
+                          mealTime: "2025-02-18T08:00:00"
+                          overallScore: 85.5
+                          grade: GOOD
+                          mealType: BREAKFAST
+                        - rank: 2
+                          mealId: 22
+                          mealName: "저녁"
+                          photoUrl: "https://s3.amazonaws.com/bucket/meal22.jpg"
+                          mealTime: "2025-02-19T19:00:00"
+                          overallScore: 85.5
+                          grade: GOOD
+                          mealType: DINNER
+                        - rank: 4
+                          mealId: 3
+                          mealName: "간식"
+                          photoUrl: "https://s3.amazonaws.com/bucket/meal3.jpg"
+                          mealTime: "2025-02-15T15:30:00"
+                          overallScore: 78.0
+                          grade: GOOD
+                          mealType: SNACK
+                      pagination:
+                        page: 0
+                        size: 10
+                        totalElements: 45
+                        totalPages: 5
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /ranking/worst:
+    get:
+      tags: [Ranking]
+      summary: 최저 식사 랭킹 조회
+      description: |
+        점수가 낮은 순으로 식사 랭킹을 조회합니다.
+
+        ## 랭킹 기준
+        - 정렬: 종합 점수 오름차순 → 식사 시간 내림차순
+        - 대상: 식후 반응이 기록된 식사만 포함
+        - 동점: 동일 점수는 동일 순위 부여 (1, 2, 2, 4...)
+
+        ## 필터링
+        - 식사 유형별 필터링 (아침/점심/저녁/간식)
+        - 날짜 범위 필터링
+
+        ## UI 표시 가이드
+        - 순위 배지: 1위(진한 빨강), 2위(빨강), 3위(주황), 그 외(숫자)
+        - 등급 색상: GOOD(초록), NORMAL(노랑), BAD(빨강)
+        - 카드 레이아웃: 순위 | 사진 | 식사명 | 점수 | 등급 | 시간
+      operationId: getWorstRanking
+      parameters:
+        - name: memberId
+          in: query
+          required: true
+          description: 회원 ID
+          schema:
+            type: integer
+            format: int64
+          example: 1
+        - name: mealType
+          in: query
+          required: false
+          description: 식사 유형 필터
+          schema:
+            type: string
+            enum: [BREAKFAST, LUNCH, DINNER, SNACK]
+          example: DINNER
+        - name: startDate
+          in: query
+          required: false
+          description: 시작일 (yyyy-MM-dd)
+          schema:
+            type: string
+            format: date
+          example: "2025-02-01"
+        - name: endDate
+          in: query
+          required: false
+          description: 종료일 (yyyy-MM-dd)
+          schema:
+            type: string
+            format: date
+          example: "2025-02-28"
+        - name: page
+          in: query
+          required: false
+          description: 페이지 번호 (0부터 시작)
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          example: 0
+        - name: size
+          in: query
+          required: false
+          description: 페이지 크기 (최대 100)
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+          example: 10
+      responses:
+        '200':
+          description: 최저 식사 랭킹 조회 성공
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/RankingPageResponse'
+              examples:
+                success:
+                  value:
+                    success: true
+                    timestamp: "2025-02-24T12:00:00"
+                    data:
+                      items:
+                        - rank: 1
+                          mealId: 5
+                          mealName: "저녁"
+                          photoUrl: "https://s3.amazonaws.com/bucket/meal5.jpg"
+                          mealTime: "2025-02-10T19:30:00"
+                          overallScore: 25.0
+                          grade: BAD
+                          mealType: DINNER
+                        - rank: 2
+                          mealId: 12
+                          mealName: "점심"
+                          photoUrl: "https://s3.amazonaws.com/bucket/meal12.jpg"
+                          mealTime: "2025-02-14T12:45:00"
+                          overallScore: 30.0
+                          grade: BAD
+                          mealType: LUNCH
+                        - rank: 3
+                          mealId: 18
+                          mealName: "간식"
+                          photoUrl: "https://s3.amazonaws.com/bucket/meal18.jpg"
+                          mealTime: "2025-02-16T16:00:00"
+                          overallScore: 35.5
+                          grade: BAD
+                          mealType: SNACK
+                        - rank: 4
+                          mealId: 7
+                          mealName: "아침"
+                          photoUrl: "https://s3.amazonaws.com/bucket/meal7.jpg"
+                          mealTime: "2025-02-12T08:15:00"
+                          overallScore: 42.0
+                          grade: BAD
+                          mealType: BREAKFAST
+                      pagination:
+                        page: 0
+                        size: 10
+                        totalElements: 12
+                        totalPages: 2
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+# ========================================================================
+# COMPONENTS - 스키마 정의
+# ========================================================================
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT 액세스 토큰 (Authorization: Bearer {token})'
+
+  # -----------------------------------------------------------------------
+  # 공통 스키마 (Common Schemas)
+  # -----------------------------------------------------------------------
+  schemas:
+    # --------------------------------------------------------
+    # 공통 응답 (Common Response)
+    # --------------------------------------------------------
+    SuccessResponse:
+      type: object
+      required: [success, timestamp]
+      properties:
+        success:
+          type: boolean
+          description: 요청 성공 여부
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+          description: 응답 시간
+          example: "2025-02-24T12:00:00"
+
+    # --------------------------------------------------------
+    # 랭킹 요청/응답 스키마 (Ranking Schemas)
+    # --------------------------------------------------------
+    RankingPageResponse:
+      type: object
+      required: [items, pagination]
+      properties:
+        items:
+          type: array
+          description: 랭킹 아이템 리스트
+          items:
+            $ref: '#/components/schemas/RankingItemResponse'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+
+    RankingItemResponse:
+      type: object
+      description: 랭킹 아이템
+      required: [rank, mealId, mealName, photoUrl, mealTime, overallScore, grade, mealType]
+      properties:
+        rank:
+          type: integer
+          description: |
+            랭킹 순위
+            - 동점: 동일 점수는 동일 순위 부여 (예: 1, 2, 2, 4...)
+            - 최고 랭킹: 점수 높은 순
+            - 최저 랭킹: 점수 낮은 순
+          example: 1
+          minimum: 1
+        mealId:
+          type: integer
+          format: int64
+          description: 식사 ID
+          example: 15
+        mealName:
+          type: string
+          description: 식사명 (식사 유형 설명)
+          example: "점심"
+        photoUrl:
+          type: string
+          format: uri
+          description: 식사 사진 URL
+          example: "https://s3.amazonaws.com/bucket/meal15.jpg"
+        mealTime:
+          type: string
+          format: date-time
+          description: 식사 시간
+          example: "2025-02-20T12:30:00"
+        overallScore:
+          type: number
+          format: double
+          description: 종합 식후 점수 (0-100)
+          example: 90.0
+          minimum: 0.0
+          maximum: 100.0
+        grade:
+          type: string
+          enum: [GOOD, NORMAL, BAD]
+          description: |
+            등급
+            - GOOD: 종합 점수 70점 이상
+            - NORMAL: 종합 점수 50-69점
+            - BAD: 종합 점수 50점 미만
+          example: GOOD
+        mealType:
+          type: string
+          enum: [BREAKFAST, LUNCH, DINNER, SNACK]
+          description: 식사 유형
+          example: LUNCH
+
+    # --------------------------------------------------------
+    # 페이지네이션 (Pagination)
+    # --------------------------------------------------------
+    Pagination:
+      type: object
+      description: 페이지네이션 메타데이터
+      required: [page, size, totalElements, totalPages]
+      properties:
+        page:
+          type: integer
+          description: 현재 페이지 번호 (0부터 시작)
+          example: 0
+          minimum: 0
+        size:
+          type: integer
+          description: 페이지 크기
+          example: 10
+          minimum: 1
+        totalElements:
+          type: integer
+          description: 전체 아이템 수
+          example: 45
+          minimum: 0
+        totalPages:
+          type: integer
+          description: 전체 페이지 수
+          example: 5
+          minimum: 0
+
+  # -----------------------------------------------------------------------
+  # 공통 에러 응답 (Error Responses)
+  # -----------------------------------------------------------------------
+  responses:
+    BadRequest:
+      description: 잘못된 요청 (파라미터 유효성 검증 실패)
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [success, error, timestamp]
+            properties:
+              success:
+                type: boolean
+                example: false
+              error:
+                type: object
+                required: [code, message]
+                properties:
+                  code:
+                    type: string
+                    example: VALIDATION_ERROR
+                  message:
+                    type: string
+                    example: "memberId must not be null"
+                  details:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        field:
+                          type: string
+                        message:
+                          type: string
+              timestamp:
+                type: string
+                format: date-time
+
+    Unauthorized:
+      description: 인증 실패 (유효하지 않은 토큰)
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [success, error, timestamp]
+            properties:
+              success:
+                type: boolean
+                example: false
+              error:
+                type: object
+                required: [code, message]
+                properties:
+                  code:
+                    type: string
+                    example: INVALID_TOKEN
+                  message:
+                    type: string
+                    example: "Invalid or expired token"
+              timestamp:
+                type: string
+                format: date-time

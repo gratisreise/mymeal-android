@@ -1,0 +1,5 @@
+package com.mymeal.mymeal_android
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity : FlutterActivity()

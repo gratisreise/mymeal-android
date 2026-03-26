@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="375" height="812" viewBox="0 0 375 812" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0df214;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0bc911;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Semi-transparent backdrop -->
+  <rect width="375" height="812" fill="#111811" opacity="0.5" />
+
+  <!-- Bottom Sheet Modal -->
+  <g transform="translate(0, 200)">
+    <!-- Handle -->
+    <rect x="145" y="10" width="85" height="5" rx="2.5" fill="#e5e7eb" />
+
+    <!-- Modal Content -->
+    <rect y="30" width="375" height="582" rx="24" fill="#ffffff" />
+
+    <!-- Profile Section -->
+    <g transform="translate(187.5, 100)">
+      <circle cx="0" cy="0" r="45" fill="#e5e7eb" />
+      <circle cx="0" cy="-5" r="18" fill="#608a62" />
+      <path d="M-18 15 Q0 5 18 15" stroke="#608a62" stroke-width="3" fill="none" />
+      <circle cx="32" cy="-5" r="12" fill="#ffffff" />
+      <path d="M28 -5 L31 -2 L36 -7" stroke="#0bc911" stroke-width="2" fill="none" />
+    </g>
+
+    <text x="187.5" y="175" text-anchor="middle" font-family="SF Pro Display" font-size="20" font-weight="700" fill="#111811">김철수</text>
+    <text x="187.5" y="200" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#608a62">cheolsu@email.com</text>
+
+    <!-- Stats -->
+    <g transform="translate(30, 230)">
+      <rect width="315" height="80" rx="16" fill="#f5f8f6" />
+
+      <g transform="translate(25, 25)">
+        <text x="0" y="0" font-family="SF Pro Display" font-size="20" font-weight="700" fill="#111811">156</text>
+        <text x="0" y="18" font-family="SF Pro Display" font-size="11" fill="#608a62">총 식사</text>
+      </g>
+
+      <g transform="translate(125, 25)">
+        <text x="0" y="0" font-family="SF Pro Display" font-size="20" font-weight="700" fill="#111811">89%</text>
+        <text x="0" y="18" font-family="SF Pro Display" font-size="11" fill="#608a62">반응률</text>
+      </g>
+
+      <g transform="translate(225, 25)">
+        <text x="0" y="0" font-family="SF Pro Display" font-size="20" font-weight="700" fill="#0df214">7🔥</text>
+        <text x="0" y="18" font-family="SF Pro Display" font-size="11" fill="#608a62">스트릭</text>
+      </g>
+    </g>
+
+    <!-- Menu Items -->
+    <g transform="translate(0, 340)">
+      <!-- Insights -->
+      <g transform="translate(30, 0)">
+        <rect width="315" height="56" rx="12" fill="#ffffff" />
+        <circle cx="28" cy="28" r="18" fill="#4cae4f" opacity="0.2" />
+        <text x="28" y="33" text-anchor="middle" font-size="18">💡</text>
+        <text x="60" y="33" font-family="SF Pro Display" font-size="16" fill="#111811">인사이트 상세보기</text>
+        <path d="M285 28 L290 23 L290 33 Z" fill="#608a62" />
+      </g>
+
+      <!-- Settings -->
+      <g transform="translate(30, 68)">
+        <rect width="315" height="56" rx="12" fill="#ffffff" />
+        <circle cx="28" cy="28" r="18" fill="#e5e7eb" />
+        <text x="28" y="34" text-anchor="middle" font-size="18">⚙️</text>
+        <text x="60" y="33" font-family="SF Pro Display" font-size="16" fill="#111811">설정</text>
+        <path d="M285 28 L290 23 L290 33 Z" fill="#608a62" />
+      </g>
+
+      <!-- Help -->
+      <g transform="translate(30, 136)">
+        <rect width="315" height="56" rx="12" fill="#ffffff" />
+        <circle cx="28" cy="28" r="18" fill="#e5e7eb" />
+        <text x="28" y="34" text-anchor="middle" font-size="18">❓</text>
+        <text x="60" y="33" font-family="SF Pro Display" font-size="16" fill="#111811">도움말</text>
+        <path d="M285 28 L290 23 L290 33 Z" fill="#608a62" />
+      </g>
+    </g>
+
+    <!-- Close Button -->
+    <g transform="translate(30, 540)">
+      <rect width="315" height="48" rx="24" fill="#f5f8f6" />
+      <text x="157.5" y="30" text-anchor="middle" font-family="SF Pro Display" font-size="16" fill="#608a62">닫기</text>
+    </g>
+  </g>
+
+  <!-- Home Indicator -->
+  <rect x="120" y="798" width="135" height="5" rx="2.5" fill="#111811" />
+</svg>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="375" height="812" viewBox="0 0 375 812" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0df214;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0bc911;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="375" height="812" fill="#f5f8f6" />
+
+  <!-- Status Bar -->
+  <rect y="0" width="375" height="44" fill="#f5f8f6" />
+  <text x="30" y="28" font-family="SF Pro Display" font-size="14" font-weight="600" fill="#111811">9:41</text>
+  <circle cx="330" cy="22" r="3" fill="#111811" />
+  <rect x="338" y="16" width="18" height="10" rx="2" stroke="#111811" stroke-width="1.5" fill="none" />
+  <rect x="340" y="18" width="14" height="6" rx="1" fill="#111811" />
+
+  <!-- Header -->
+  <g transform="translate(0, 60)">
+    <!-- Back Button -->
+    <path d="M35 20 L40 15 L40 25 Z" fill="#111811" />
+
+    <text x="187.5" y="25" text-anchor="middle" font-family="SF Pro Display" font-size="20" font-weight="700" fill="#111811">설정</text>
+  </g>
+
+  <!-- Notification Settings Section -->
+  <g transform="translate(20, 110)">
+    <text x="15" y="15" font-family="SF Pro Display" font-size="14" font-weight="600" fill="#608a62">알림</text>
+
+    <rect y="30" width="335" height="150" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <!-- 30min before meal recommendation -->
+    <g transform="translate(15, 45)">
+      <text x="0" y="15" font-family="SF Pro Display" font-size="15" fill="#111811">식사 30분 전 추천</text>
+      <text x="0" y="35" font-family="SF Pro Display" font-size="12" fill="#608a62">식사 시간 전 추천 메뉴 알림</text>
+      <!-- Toggle - ON -->
+      <rect x="270" y="5" width="50" height="28" rx="14" fill="#0bc911" />
+      <circle cx="305" cy="19" r="12" fill="#ffffff" />
+    </g>
+
+    <!-- 1hr after meal survey -->
+    <g transform="translate(15, 95)">
+      <text x="0" y="15" font-family="SF Pro Display" font-size="15" fill="#111811">식후 1시간 후 조사</text>
+      <text x="0" y="35" font-family="SF Pro Display" font-size="12" fill="#608a62">컨디션 체크 알림</text>
+      <!-- Toggle - ON -->
+      <rect x="270" y="5" width="50" height="28" rx="14" fill="#0bc911" />
+      <circle cx="305" cy="19" r="12" fill="#ffffff" />
+    </g>
+  </g>
+
+  <!-- Meal Time Settings Section -->
+  <g transform="translate(20, 290)">
+    <text x="15" y="15" font-family="SF Pro Display" font-size="14" font-weight="600" fill="#608a62">식사 시간</text>
+
+    <rect y="30" width="335" height="140" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <!-- Breakfast -->
+    <g transform="translate(15, 45)">
+      <circle cx="15" cy="12" r="14" fill="#FFB74D" opacity="0.2" />
+      <text x="15" y="17" text-anchor="middle" font-size="14">🌅</text>
+      <text x="40" y="17" font-family="SF Pro Display" font-size="15" fill="#111811">아침</text>
+      <text x="285" y="17" text-anchor="end" font-family="SF Pro Display" font-size="15" font-weight="600" fill="#0bc911">08:00</text>
+    </g>
+
+    <!-- Lunch -->
+    <g transform="translate(15, 85)">
+      <circle cx="15" cy="12" r="14" fill="#4DB6AC" opacity="0.2" />
+      <text x="15" y="17" text-anchor="middle" font-size="14">☀️</text>
+      <text x="40" y="17" font-family="SF Pro Display" font-size="15" fill="#111811">점심</text>
+      <text x="285" y="17" text-anchor="end" font-family="SF Pro Display" font-size="15" font-weight="600" fill="#0bc911">12:00</text>
+    </g>
+
+    <!-- Dinner -->
+    <g transform="translate(15, 125)">
+      <circle cx="15" cy="12" r="14" fill="#7986CB" opacity="0.2" />
+      <text x="15" y="17" text-anchor="middle" font-size="14">🌙</text>
+      <text x="40" y="17" font-family="SF Pro Display" font-size="15" fill="#111811">저녁</text>
+      <text x="285" y="17" text-anchor="end" font-family="SF Pro Display" font-size="15" font-weight="600" fill="#0bc911">19:00</text>
+    </g>
+  </g>
+
+  <!-- Data Management Section -->
+  <g transform="translate(20, 480)">
+    <text x="15" y="15" font-family="SF Pro Display" font-size="14" font-weight="600" fill="#608a62">데이터 관리</text>
+
+    <rect y="30" width="335" height="170" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <!-- Export -->
+    <g transform="translate(15, 50)">
+      <circle cx="15" cy="12" r="14" fill="#e5e7eb" />
+      <text x="15" y="17" text-anchor="middle" font-size="14">📤</text>
+      <text x="40" y="17" font-family="SF Pro Display" font-size="15" fill="#111811">데이터 내보내기</text>
+      <path d="M285 12 L290 7 L290 17 Z" fill="#608a62" />
+    </g>
+
+    <line x1="15" y1="85" x2="320" y2="85" stroke="#e5e7eb" stroke-width="1" />
+
+    <!-- Delete All -->
+    <g transform="translate(15, 105)">
+      <circle cx="15" cy="12" r="14" fill="#FF5252" opacity="0.15" />
+      <text x="15" y="17" text-anchor="middle" font-size="14">🗑️</text>
+      <text x="40" y="17" font-family="SF Pro Display" font-size="15" fill="#FF5252">전체 삭제</text>
+    </g>
+
+    <line x1="15" y1="140" x2="320" y2="140" stroke="#e5e7eb" stroke-width="1" />
+
+    <!-- Delete Account -->
+    <g transform="translate(15, 160)">
+      <circle cx="15" cy="12" r="14" fill="#FF5252" opacity="0.15" />
+      <text x="15" y="17" text-anchor="middle" font-size="14">👋</text>
+      <text x="40" y="17" font-family="SF Pro Display" font-size="15" fill="#FF5252">계정 탈퇴</text>
+    </g>
+  </g>
+
+  <!-- Other Section -->
+  <g transform="translate(20, 690)">
+    <rect y="0" width="335" height="85" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <!-- App Version -->
+    <g transform="translate(15, 25)">
+      <text x="0" y="0" font-family="SF Pro Display" font-size="15" fill="#111811">앱 버전</text>
+      <text x="285" y="0" text-anchor="end" font-family="SF Pro Display" font-size="14" fill="#608a62">1.0.0</text>
+    </g>
+
+    <line x1="15" y1="40" x2="320" y2="40" stroke="#e5e7eb" stroke-width="1" />
+
+    <!-- Logout -->
+    <g transform="translate(15, 60)">
+      <text x="0" y="0" font-family="SF Pro Display" font-size="15" fill="#FF5252">로그아웃</text>
+    </g>
+  </g>
+
+  <!-- Home Indicator -->
+  <rect x="120" y="798" width="135" height="5" rx="2.5" fill="#111811" />
+</svg>

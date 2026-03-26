@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="375" height="812" viewBox="0 0 375 812" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0df214;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0bc911;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="375" height="812" fill="#f5f8f6" />
+
+  <!-- Status Bar -->
+  <rect y="0" width="375" height="44" fill="#f5f8f6" />
+  <text x="30" y="28" font-family="SF Pro Display" font-size="14" font-weight="600" fill="#111811">9:41</text>
+  <circle cx="330" cy="22" r="3" fill="#111811" />
+  <rect x="338" y="16" width="18" height="10" rx="2" stroke="#111811" stroke-width="1.5" fill="none" />
+  <rect x="340" y="18" width="14" height="6" rx="1" fill="#111811" />
+
+  <!-- Header -->
+  <g transform="translate(0, 70)">
+    <!-- Month Navigation -->
+    <path d="M30 15 L40 5 L40 25 Z" fill="#608a62" />
+    <text x="187.5" y="20" text-anchor="middle" font-family="SF Pro Display" font-size="20" font-weight="700" fill="#111811">2025년 2월</text>
+    <path d="M330 5 L340 15 L330 25 Z" fill="#608a62" />
+  </g>
+
+  <!-- Calendar Grid -->
+  <g transform="translate(15, 120)">
+    <!-- Weekday Headers -->
+    <g font-family="SF Pro Display" font-size="12" fill="#608a62" text-anchor="middle">
+      <text x="25" y="0">일</text>
+      <text x="72" y="0">월</text>
+      <text x="119" y="0">화</text>
+      <text x="166" y="0">수</text>
+      <text x="213" y="0">목</text>
+      <text x="260" y="0">금</text>
+      <text x="307" y="0">토</text>
+    </g>
+
+    <!-- Calendar Days -->
+    <g transform="translate(0, 20)">
+      <!-- Week 1 -->
+      <g transform="translate(0, 0)">
+        <!-- Previous month -->
+        <text x="25" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#e5e7eb">26</text>
+        <text x="72" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#e5e7eb">27</text>
+        <text x="119" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#e5e7eb">28</text>
+        <text x="166" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#e5e7eb">29</text>
+        <text x="213" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#e5e7eb">30</text>
+        <text x="260" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#e5e7eb">31</text>
+        <!-- Feb 1 - 3 meals, good -->
+        <circle cx="307" cy="30" r="10" fill="#0df214" opacity="0.3" />
+        <text x="307" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" font-weight="600" fill="#111811">1</text>
+      </g>
+
+      <!-- Week 2 -->
+      <g transform="translate(0, 55)">
+        <text x="25" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">2</text>
+        <!-- Feb 3 - 2 meals, normal -->
+        <circle cx="72" cy="30" r="8" fill="#FFC107" opacity="0.3" />
+        <text x="72" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">3</text>
+        <!-- Feb 4 - 3 meals, good -->
+        <circle cx="119" cy="30" r="10" fill="#0df214" opacity="0.3" />
+        <text x="119" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">4</text>
+        <!-- Feb 5 - 3 meals, good -->
+        <circle cx="166" cy="30" r="10" fill="#0df214" opacity="0.3" />
+        <text x="166" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">5</text>
+        <text x="213" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">6</text>
+        <!-- Feb 7 - 1 meal, bad -->
+        <circle cx="260" cy="30" r="6" fill="#FF5252" opacity="0.3" />
+        <text x="260" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">7</text>
+        <text x="307" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">8</text>
+      </g>
+
+      <!-- Week 3 -->
+      <g transform="translate(0, 110)">
+        <!-- Feb 9 - 3 meals, good -->
+        <circle cx="25" cy="30" r="10" fill="#0df214" opacity="0.3" />
+        <text x="25" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">9</text>
+        <!-- Feb 10 - 3 meals, good -->
+        <circle cx="72" cy="30" r="10" fill="#0df214" opacity="0.3" />
+        <text x="72" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">10</text>
+        <text x="119" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">11</text>
+        <!-- Feb 12 - Today (selected) -->
+        <rect x="151" y="15" width="30" height="30" rx="8" fill="#0bc911" />
+        <text x="166" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" font-weight="600" fill="#ffffff">12</text>
+        <text x="213" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">13</text>
+        <text x="260" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">14</text>
+        <text x="307" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">15</text>
+      </g>
+
+      <!-- Week 4 -->
+      <g transform="translate(0, 165)">
+        <text x="25" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">16</text>
+        <text x="72" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">17</text>
+        <text x="119" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">18</text>
+        <text x="166" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">19</text>
+        <text x="213" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">20</text>
+        <text x="260" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">21</text>
+        <text x="307" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">22</text>
+      </g>
+
+      <!-- Week 5 -->
+      <g transform="translate(0, 220)">
+        <text x="25" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">23</text>
+        <text x="72" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">24</text>
+        <text x="119" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">25</text>
+        <text x="166" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">26</text>
+        <text x="213" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">27</text>
+        <text x="260" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#111811">28</text>
+        <!-- Next month -->
+        <text x="307" y="35" text-anchor="middle" font-family="SF Pro Display" font-size="14" fill="#e5e7eb">1</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(20, 520)">
+    <text x="0" y="15" font-family="SF Pro Display" font-size="12" fill="#608a62">색상으로 보기</text>
+
+    <circle cx="15" cy="40" r="6" fill="#0df214" />
+    <text x="28" y="44" font-family="SF Pro Display" font-size="12" fill="#608a62">좋음</text>
+
+    <circle cx="70" cy="40" r="6" fill="#FFC107" />
+    <text x="83" y="44" font-family="SF Pro Display" font-size="12" fill="#608a62">보통</text>
+
+    <circle cx="125" cy="40" r="6" fill="#FF5252" />
+    <text x="138" y="44" font-family="SF Pro Display" font-size="12" fill="#608a62">나쁨</text>
+
+    <text x="320" y="44" text-anchor="end" font-family="SF Pro Display" font-size="12" fill="#608a62">점 크기 = 식사 횟수</text>
+  </g>
+
+  <!-- Monthly Summary Card -->
+  <g transform="translate(20, 580)">
+    <rect width="335" height="80" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <text x="20" y="30" font-family="SF Pro Display" font-size="14" font-weight="600" fill="#111811">2월 요약</text>
+
+    <g transform="translate(20, 50)">
+      <text x="0" y="0" font-family="SF Pro Display" font-size="24" font-weight="700" fill="#111811">42</text>
+      <text x="0" y="20" font-family="SF Pro Display" font-size="12" fill="#608a62">식사 기록</text>
+    </g>
+
+    <g transform="translate(120, 50)">
+      <text x="0" y="0" text-anchor="middle" font-size="28">😊</text>
+      <text x="0" y="20" text-anchor="middle" font-family="SF Pro Display" font-size="12" fill="#608a62">평균 컨디션</text>
+    </g>
+
+    <g transform="translate(230, 50)">
+      <text x="0" y="0" font-family="SF Pro Display" font-size="24" font-weight="700" fill="#0df214">85%</text>
+      <text x="0" y="20" font-family="SF Pro Display" font-size="12" fill="#608a62">반응 기록률</text>
+    </g>
+  </g>
+
+  <!-- Bottom Navigation -->
+  <g transform="translate(0, 712)">
+    <rect width="375" height="100" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <!-- Home -->
+    <g transform="translate(40, 25)">
+      <text x="20" y="20" text-anchor="middle" font-size="20" opacity="0.5">🏠</text>
+      <text x="20" y="45" text-anchor="middle" font-family="SF Pro Display" font-size="10" fill="#608a62">홈</text>
+    </g>
+
+    <!-- Insights -->
+    <g transform="translate(110, 25)">
+      <text x="20" y="20" text-anchor="middle" font-size="20" opacity="0.5">💡</text>
+      <text x="20" y="45" text-anchor="middle" font-family="SF Pro Display" font-size="10" fill="#608a62">인사이트</text>
+    </g>
+
+    <!-- FAB Add Button -->
+    <g transform="translate(187.5, -20)">
+      <circle cx="0" cy="0" r="32" fill="url(#primaryGradient)" />
+      <line x1="-12" y1="0" x2="12" y2="0" stroke="#ffffff" stroke-width="3" />
+      <line x1="0" y1="-12" x2="0" y2="12" stroke="#ffffff" stroke-width="3" />
+    </g>
+
+    <!-- Journal - Active -->
+    <g transform="translate(220, 25)">
+      <circle cx="20" cy="15" r="18" fill="#0df214" opacity="0.15" />
+      <text x="20" y="20" text-anchor="middle" font-size="20">📖</text>
+      <text x="20" y="45" text-anchor="middle" font-family="SF Pro Display" font-size="10" font-weight="600" fill="#0bc911">저널</text>
+    </g>
+
+    <!-- Profile -->
+    <g transform="translate(290, 25)">
+      <text x="20" y="20" text-anchor="middle" font-size="20" opacity="0.5">👤</text>
+      <text x="20" y="45" text-anchor="middle" font-family="SF Pro Display" font-size="10" fill="#608a62">프로필</text>
+    </g>
+  </g>
+
+  <!-- Home Indicator -->
+  <rect x="120" y="798" width="135" height="5" rx="2.5" fill="#111811" />
+</svg>

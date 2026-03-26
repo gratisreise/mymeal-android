@@ -1,0 +1,365 @@
+openapi: 3.1.0
+info:
+  title: MyMeal Settings API
+  description: |
+    MyMeal 사용자 설정 관리 API 명세서
+
+    ## 개요
+    - 알림 설정 조회/수정
+    - 식사 시간 설정 관리
+
+  version: 1.0.0
+  contact:
+    name: MyMeal Team
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: 로컬 개발 환경
+  - url: https://api.mymeal.com/api/v1
+    description: 프로덕션 환경
+
+tags:
+  - name: Settings
+    description: 사용자 설정 관리
+
+# ========================================================================
+# 공통 응답 형태 (Standard Response Format)
+# ========================================================================
+# 모든 API는 다음 형태로 응답합니다.
+#
+# 1. 성공 + 데이터
+#    {
+#      "success": true,
+#      "timestamp": "2026-02-24T10:30:00",
+#      "data": { ... }
+#    }
+#
+# 2. 성공 + 데이터 없음
+#    {
+#      "success": true,
+#      "timestamp": "2026-02-24T10:30:00",
+#      "data": null
+#    }
+# ========================================================================
+
+paths:
+  # ========================================================================
+  # SETTINGS - 설정 관리
+  # ========================================================================
+  /settings:
+    get:
+      tags: [Settings]
+      summary: 사용자 설정 조회
+      description: |
+        현재 로그인한 사용자의 알림 설정 및 식사 시간을 조회합니다.
+
+        ## 응답 데이터
+        - **recommendationEnabled**: 식단 추천 알림 활성화 여부
+        - **reactionReminderEnabled**: 식후 반응 기록 리마인더 알림 활성화 여부
+        - **mealReminderEnabled**: 식사 시간 알림 활성화 여부
+        - **mealTimes**: 식사 시간 설정 (아침/점심/저녁)
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: 설정 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2026-02-24T10:30:00"
+                  data:
+                    $ref: '#/components/schemas/SettingsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /settings/notifications:
+    put:
+      tags: [Settings]
+      summary: 알림 설정 수정
+      description: |
+        알림 및 식사 시간 설정을 수정합니다.
+
+        ## 수정 가능한 항목
+        - **recommendationEnabled**: 식단 추천 알림 on/off
+        - **reactionReminderEnabled**: 식후 반응 기록 리마인더 on/off
+        - **mealReminderEnabled**: 식사 시간 알림 on/off
+        - **mealTimes**: 식사 시간 (HH:mm 형식, null인 필드만 수정)
+
+        ## 비고
+        - 부분 수정 가능: null인 필드는 기존 값 유지
+        - mealTimes 내부의 시간도 개별적으로 null로 전송 시 해당 시간만 수정
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateNotificationRequest'
+            examples:
+              all_fields:
+                summary: 전체 필드 수정
+                value:
+                  recommendationEnabled: true
+                  reactionReminderEnabled: true
+                  mealReminderEnabled: true
+                  mealTimes:
+                    breakfast: "08:00"
+                    lunch: "12:30"
+                    dinner: "19:00"
+              partial_update:
+                summary: 부분 수정 (알림만)
+                value:
+                  recommendationEnabled: false
+                  reactionReminderEnabled: null
+                  mealReminderEnabled: null
+                  mealTimes: null
+              meal_times_only:
+                summary: 식사 시간만 수정
+                value:
+                  recommendationEnabled: null
+                  reactionReminderEnabled: null
+                  mealReminderEnabled: null
+                  mealTimes:
+                    breakfast: "07:30"
+                    lunch: null
+                    dinner: null
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessWithNull'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+# ========================================================================
+# Components (Schemas & Responses)
+# ========================================================================
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT 토큰 기반 인증 (Authorization: Bearer {token})
+
+  schemas:
+    # ========================================================================
+    # Request Schemas
+    # ========================================================================
+    UpdateNotificationRequest:
+      type: object
+      properties:
+        recommendationEnabled:
+          type: boolean
+          nullable: true
+          description: 식단 추천 알림 활성화 여부 (null인 경우 기존 값 유지)
+        reactionReminderEnabled:
+          type: boolean
+          nullable: true
+          description: 식후 반응 기록 리마인더 활성화 여부 (null인 경우 기존 값 유지)
+        mealReminderEnabled:
+          type: boolean
+          nullable: true
+          description: 식사 시간 알림 활성화 여부 (null인 경우 기존 값 유지)
+        mealTimes:
+          $ref: '#/components/schemas/MealTimesData'
+      example:
+        recommendationEnabled: true
+        reactionReminderEnabled: true
+        mealReminderEnabled: true
+        mealTimes:
+          breakfast: "08:00"
+          lunch: "12:30"
+          dinner: "19:00"
+
+    MealTimesData:
+      type: object
+      properties:
+        breakfast:
+          type: string
+          format: time
+          nullable: true
+          pattern: "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
+          description: 아침 식사 시간 (HH:mm 형식, null인 경우 기존 값 유지)
+          example: "08:00"
+        lunch:
+          type: string
+          format: time
+          nullable: true
+          pattern: "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
+          description: 점심 식사 시간 (HH:mm 형식, null인 경우 기존 값 유지)
+          example: "12:30"
+        dinner:
+          type: string
+          format: time
+          nullable: true
+          pattern: "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
+          description: 저녁 식사 시간 (HH:mm 형식, null인 경우 기존 값 유지)
+          example: "19:00"
+
+    # ========================================================================
+    # Response Schemas
+    # ========================================================================
+    SettingsResponse:
+      type: object
+      properties:
+        notifications:
+          $ref: '#/components/schemas/NotificationsResponse'
+      required:
+        - notifications
+
+    NotificationsResponse:
+      type: object
+      properties:
+        recommendationEnabled:
+          type: boolean
+          description: 식단 추천 알림 활성화 여부
+        reactionReminderEnabled:
+          type: boolean
+          description: 식후 반응 기록 리마인더 활성화 여부
+        mealReminderEnabled:
+          type: boolean
+          description: 식사 시간 알림 활성화 여부
+        mealTimes:
+          $ref: '#/components/schemas/MealTimesResponse'
+      required:
+        - recommendationEnabled
+        - reactionReminderEnabled
+        - mealReminderEnabled
+        - mealTimes
+
+    MealTimesResponse:
+      type: object
+      properties:
+        breakfast:
+          type: string
+          format: time
+          description: 아침 식사 시간
+          example: "08:00"
+        lunch:
+          type: string
+          format: time
+          description: 점심 식사 시간
+          example: "12:30"
+        dinner:
+          type: string
+          format: time
+          description: 저녁 식사 시간
+          example: "19:00"
+      required:
+        - breakfast
+        - lunch
+        - dinner
+
+    # ========================================================================
+    # Error Response Schemas
+    # ========================================================================
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        timestamp:
+          type: string
+          format: date-time
+          example: "2026-02-24T10:30:00"
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: "VALIDATION_ERROR"
+            message:
+              type: string
+              example: "요청 데이터가 유효하지 않습니다."
+            details:
+              type: object
+              nullable: true
+              additionalProperties: true
+      required:
+        - success
+        - timestamp
+        - error
+
+  # ========================================================================
+  # Reusable Responses
+  # ========================================================================
+  responses:
+    SuccessWithNull:
+      description: 요청 성공 (반환 데이터 없음)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              timestamp:
+                type: string
+                format: date-time
+                example: "2026-02-24T10:30:00"
+              data:
+                type: object
+                nullable: true
+                example: null
+            required:
+              - success
+              - timestamp
+              - data
+
+    BadRequest:
+      description: 잘못된 요청 (400)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            timestamp: "2026-02-24T10:30:00"
+            error:
+              code: "VALIDATION_ERROR"
+              message: "요청 데이터가 유효하지 않습니다."
+              details:
+                mealTimes.dinner: "시간 형식이 올바르지 않습니다."
+
+    Unauthorized:
+      description: 인증 실패 (401)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            timestamp: "2026-02-24T10:30:00"
+            error:
+              code: "UNAUTHORIZED"
+              message: "인증이 필요합니다."
+              details: null
+
+    NotFound:
+      description: 리소스 찾을 수 없음 (404)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            timestamp: "2026-02-24T10:30:00"
+            error:
+              code: "MEMBER_SETTINGS_NOT_FOUND"
+              message: "사용자 설정을 찾을 수 없습니다."
+              details: null

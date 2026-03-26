@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="375" height="812" viewBox="0 0 375 812" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0df214;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0bc911;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="375" height="812" fill="#f5f8f6" />
+
+  <!-- Status Bar -->
+  <rect y="0" width="375" height="44" fill="#f5f8f6" />
+  <text x="30" y="28" font-family="SF Pro Display" font-size="14" font-weight="600" fill="#111811">9:41</text>
+  <circle cx="330" cy="22" r="3" fill="#111811" />
+  <rect x="338" y="16" width="18" height="10" rx="2" stroke="#111811" stroke-width="1.5" fill="none" />
+  <rect x="340" y="18" width="14" height="6" rx="1" fill="#111811" />
+
+  <!-- Header -->
+  <g transform="translate(0, 60)">
+    <!-- Profile Icon -->
+    <circle cx="45" cy="22" r="20" fill="#e5e7eb" />
+    <circle cx="45" cy="18" r="8" fill="#608a62" />
+    <path d="M35 32 Q45 24 55 32" stroke="#608a62" stroke-width="2" fill="none" />
+
+    <!-- Date Picker -->
+    <g transform="translate(187.5, 22)">
+      <path d="M-60 5 L-50 0 L-50 10 Z" fill="#608a62" />
+      <text x="0" y="5" text-anchor="middle" font-family="SF Pro Display" font-size="16" font-weight="600" fill="#111811">2월 12일 수</text>
+      <path d="M50 5 L60 0 L60 10 Z" fill="#608a62" />
+    </g>
+
+    <!-- Notification Icon -->
+    <circle cx="330" cy="22" r="18" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+    <path d="M330 14 L330 20 L336 20" stroke="#608a62" stroke-width="1.5" fill="none" />
+  </g>
+
+  <!-- Empty State Illustration -->
+  <g transform="translate(187.5, 350)">
+    <!-- Background Circle -->
+    <circle cx="0" cy="0" r="100" fill="#4cae4f" opacity="0.1" />
+
+    <!-- Camera Plate Icon -->
+    <rect x="-60" y="-50" width="120" height="80" rx="20" fill="url(#primaryGradient)" opacity="0.8" />
+    <rect x="-50" y="-40" width="100" height="60" rx="10" fill="#ffffff" />
+    <circle cx="0" cy="-10" r="20" fill="#f5f8f6" />
+    <circle cx="0" cy="-10" r="10" fill="#4cae4f" />
+    <circle cx="0" cy="-10" r="14" stroke="#0bc911" stroke-width="2" fill="none" />
+
+    <!-- Sparkles -->
+    <text x="70" y="-60" font-size="20">✨</text>
+    <text x="-70" y="40" font-size="16">🌟</text>
+  </g>
+
+  <!-- Empty State Message -->
+  <text x="187.5" y="520" text-anchor="middle" font-family="SF Pro Display" font-size="22" font-weight="700" fill="#111811">첫 식사를 기록해볼까요?</text>
+  <text x="187.5" y="555" text-anchor="middle" font-family="SF Pro Display" font-size="16" fill="#608a62">사진 한 장으로 간편하게 식단을 기록해요</text>
+
+  <!-- CTA Button -->
+  <g transform="translate(30, 590)">
+    <rect width="315" height="56" rx="28" fill="url(#primaryGradient)" />
+    <circle cx="50" cy="28" r="16" fill="#ffffff" />
+    <line x1="44" y1="28" x2="56" y2="28" stroke="#0bc911" stroke-width="2" />
+    <line x1="50" y1="22" x2="50" y2="34" stroke="#0bc911" stroke-width="2" />
+    <text x="180" y="36" text-anchor="middle" font-family="SF Pro Display" font-size="18" font-weight="600" fill="#ffffff">식사 기록하기</text>
+  </g>
+
+  <!-- Bottom Navigation -->
+  <g transform="translate(0, 712)">
+    <rect width="375" height="100" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <!-- Home - Active -->
+    <g transform="translate(40, 25)">
+      <circle cx="20" cy="15" r="18" fill="#0df214" opacity="0.15" />
+      <text x="20" y="20" text-anchor="middle" font-size="20">🏠</text>
+      <text x="20" y="45" text-anchor="middle" font-family="SF Pro Display" font-size="10" font-weight="600" fill="#0bc911">홈</text>
+    </g>
+
+    <!-- Insights -->
+    <g transform="translate(110, 25)">
+      <text x="20" y="20" text-anchor="middle" font-size="20" opacity="0.5">💡</text>
+      <text x="20" y="45" text-anchor="middle" font-family="SF Pro Display" font-size="10" fill="#608a62">인사이트</text>
+    </g>
+
+    <!-- FAB Add Button -->
+    <g transform="translate(187.5, -20)">
+      <circle cx="0" cy="0" r="32" fill="url(#primaryGradient)" />
+      <line x1="-12" y1="0" x2="12" y2="0" stroke="#ffffff" stroke-width="3" />
+      <line x1="0" y1="-12" x2="0" y2="12" stroke="#ffffff" stroke-width="3" />
+      <circle cx="0" cy="0" r="38" stroke="#0df214" stroke-width="4" opacity="0.3" />
+    </g>
+
+    <!-- Journal -->
+    <g transform="translate(220, 25)">
+      <text x="20" y="20" text-anchor="middle" font-size="20" opacity="0.5">📖</text>
+      <text x="20" y="45" text-anchor="middle" font-family="SF Pro Display" font-size="10" fill="#608a62">저널</text>
+    </g>
+
+    <!-- Profile -->
+    <g transform="translate(290, 25)">
+      <text x="20" y="20" text-anchor="middle" font-size="20" opacity="0.5">👤</text>
+      <text x="20" y="45" text-anchor="middle" font-family="SF Pro Display" font-size="10" fill="#608a62">프로필</text>
+    </g>
+  </g>
+
+  <!-- Home Indicator -->
+  <rect x="120" y="798" width="135" height="5" rx="2.5" fill="#111811" />
+</svg>

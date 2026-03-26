@@ -1,0 +1,178 @@
+{
+  "app": "MyMeal",
+  "description": "식단 개인화 앱 색상 테마",
+  "lastUpdated": "2025-02-09",
+
+  "primary": {
+    "main": "#4CAF50",
+    "light": "#81C784",
+    "dark": "#388E3C",
+    "contrastText": "#FFFFFF"
+  },
+  "secondary": {
+    "main": "#FF9800",
+    "light": "#FFB74D",
+    "dark": "#F57C00",
+    "contrastText": "#FFFFFF"
+  },
+
+  "background": {
+    "default": "#FFFFFF",
+    "paper": "#FAFAFA",
+    "dark": "#F5F5F5"
+  },
+
+  "surface": {
+    "default": "#FFFFFF",
+    "variant": "#EEEEEE",
+    "elevated": "#FFFFFF"
+  },
+
+  "text": {
+    "primary": "#212121",
+    "secondary": "#757575",
+    "disabled": "#BDBDBD",
+    "hint": "#9E9E9E",
+    "onDark": "#FFFFFF"
+  },
+
+  "border": {
+    "default": "#E0E0E0",
+    "light": "#F0F0F0",
+    "dark": "#BDBDBD"
+  },
+
+  "shadow": {
+    "light": "rgba(0, 0, 0, 0.05)",
+    "medium": "rgba(0, 0, 0, 0.1)",
+    "dark": "rgba(0, 0, 0, 0.15)"
+  },
+
+  "status": {
+    "success": {
+      "main": "#4CAF50",
+      "light": "#A5D6A7",
+      "background": "#E8F5E9"
+    },
+    "warning": {
+      "main": "#FFC107",
+      "light": "#FFE082",
+      "background": "#FFF8E1"
+    },
+    "error": {
+      "main": "#F44336",
+      "light": "#EF9A9A",
+      "background": "#FFEBEE"
+    },
+    "info": {
+      "main": "#2196F3",
+      "light": "#90CAF9",
+      "background": "#E3F2FD"
+    }
+  },
+
+  "reaction": {
+    "excellent": {
+      "color": "#4CAF50",
+      "background": "#E8F5E9",
+      "emoji": "😊"
+    },
+    "good": {
+      "color": "#8BC34A",
+      "background": "#F1F8E9",
+      "emoji": "🙂"
+    },
+    "normal": {
+      "color": "#FFC107",
+      "background": "#FFF8E1",
+      "emoji": "😐"
+    },
+    "bad": {
+      "color": "#FF9800",
+      "background": "#FFF3E0",
+      "emoji": "😕"
+    },
+    "terrible": {
+      "color": "#F44336",
+      "background": "#FFEBEE",
+      "emoji": "😫"
+    }
+  },
+
+  "mealType": {
+    "breakfast": {
+      "color": "#FFB74D",
+      "background": "#FFF8E1",
+      "icon": "sun"
+    },
+    "lunch": {
+      "color": "#4DB6AC",
+      "background": "#E0F2F1",
+      "icon": "cloud"
+    },
+    "dinner": {
+      "color": "#7986CB",
+      "background": "#E8EAF6",
+      "icon": "moon"
+    },
+    "snack": {
+      "color": "#BA68C8",
+      "background": "#F3E5F5",
+      "icon": "coffee"
+    }
+  },
+
+  "navigation": {
+    "active": "#4CAF50",
+    "inactive": "#9E9E9E",
+    "background": "#FFFFFF",
+    "border": "#E0E0E0"
+  },
+
+  "button": {
+    "primary": {
+      "background": "#4CAF50",
+      "text": "#FFFFFF",
+      "hover": "#43A047",
+      "disabled": "#BDBDBD"
+    },
+    "secondary": {
+      "background": "transparent",
+      "text": "#4CAF50",
+      "border": "#4CAF50",
+      "hover": "#E8F5E9"
+    },
+    "danger": {
+      "background": "#F44336",
+      "text": "#FFFFFF",
+      "hover": "#E53935"
+    }
+  },
+
+  "input": {
+    "background": "#FFFFFF",
+    "border": "#E0E0E0",
+    "focus": "#4CAF50",
+    "error": "#F44336",
+    "placeholder": "#BDBDBD"
+  },
+
+  "card": {
+    "background": "#FFFFFF",
+    "border": "#E0E0E0",
+    "shadow": "rgba(0, 0, 0, 0.08)"
+  },
+
+  "calendar": {
+    "today": "#4CAF50",
+    "selected": "#E8F5E9",
+    "hasMeal": "#81C784",
+    "border": "#E0E0E0"
+  },
+
+  "overlay": {
+    "light": "rgba(255, 255, 255, 0.9)",
+    "dark": "rgba(0, 0, 0, 0.5)",
+    "blur": "rgba(255, 255, 255, 0.8)"
+  }
+}

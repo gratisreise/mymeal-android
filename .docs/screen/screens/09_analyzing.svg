@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="375" height="812" viewBox="0 0 375 812" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0df214;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0bc911;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="375" height="812" fill="#f5f8f6" />
+
+  <!-- Status Bar -->
+  <rect y="0" width="375" height="44" fill="#f5f8f6" />
+  <text x="30" y="28" font-family="SF Pro Display" font-size="14" font-weight="600" fill="#111811">9:41</text>
+  <circle cx="330" cy="22" r="3" fill="#111811" />
+  <rect x="338" y="16" width="18" height="10" rx="2" stroke="#111811" stroke-width="1.5" fill="none" />
+  <rect x="340" y="18" width="14" height="6" rx="1" fill="#111811" />
+
+  <!-- Loading Animation Area -->
+  <g transform="translate(187.5, 320)">
+    <!-- Outer Ring -->
+    <circle cx="0" cy="0" r="80" fill="none" stroke="#e5e7eb" stroke-width="8" />
+
+    <!-- Progress Ring (75% complete) -->
+    <path d="M0 -80 A80 80 0 1 1 56.57 56.57"
+          fill="none"
+          stroke="url(#primaryGradient)"
+          stroke-width="8"
+          stroke-linecap="round"
+          transform="rotate(-180)" />
+
+    <!-- Center Icon -->
+    <circle cx="0" cy="0" r="50" fill="#4cae4f" opacity="0.15" />
+    <text x="0" y="10" text-anchor="middle" font-size="48">🍽️</text>
+
+    <!-- Spinning dots -->
+    <circle cx="0" cy="-100" r="6" fill="#0df214">
+      <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="86.6" cy="-50" r="6" fill="#0df214" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="1.5s" repeatCount="indefinite" begin="0.25s" />
+    </circle>
+    <circle cx="86.6" cy="50" r="6" fill="#0df214" opacity="0.3">
+      <animate attributeName="opacity" values="0.3;0.6;0.3" dur="1.5s" repeatCount="indefinite" begin="0.5s" />
+    </circle>
+  </g>
+
+  <!-- Loading Messages -->
+  <text x="187.5" y="480" text-anchor="middle" font-family="SF Pro Display" font-size="22" font-weight="600" fill="#111811">점심 메뉴를 분석 중이에요...</text>
+  <text x="187.5" y="520" text-anchor="middle" font-family="SF Pro Display" font-size="16" fill="#608a62">잠시만 기다려주세요</text>
+
+  <!-- Progress Steps -->
+  <g transform="translate(50, 580)">
+    <!-- Step 1 - Complete -->
+    <circle cx="20" cy="10" r="12" fill="#0df214" />
+    <path d="M15 10 L18 13 L25 6" stroke="#ffffff" stroke-width="2" fill="none" />
+    <text x="45" y="15" font-family="SF Pro Display" font-size="14" fill="#111811">사진 업로드 완료</text>
+
+    <!-- Step 2 - Complete -->
+    <circle cx="20" cy="50" r="12" fill="#0df214" />
+    <path d="M15 50 L18 53 L25 46" stroke="#ffffff" stroke-width="2" fill="none" />
+    <text x="45" y="55" font-family="SF Pro Display" font-size="14" fill="#111811">음식 인식 완료</text>
+
+    <!-- Step 3 - In Progress -->
+    <circle cx="20" cy="90" r="12" fill="#f5f8f6" stroke="#0bc911" stroke-width="2" />
+    <circle cx="20" cy="90" r="4" fill="#0bc911">
+      <animate attributeName="r" values="4;6;4" dur="1s" repeatCount="indefinite" />
+    </circle>
+    <text x="45" y="95" font-family="SF Pro Display" font-size="14" fill="#0bc911" font-weight="600">영양 분석 중...</text>
+  </g>
+
+  <!-- Cancel Button -->
+  <g transform="translate(30, 720)">
+    <rect width="315" height="52" rx="26" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+    <text x="157.5" y="33" text-anchor="middle" font-family="SF Pro Display" font-size="16" fill="#608a62">취소하기</text>
+  </g>
+
+  <!-- Home Indicator -->
+  <rect x="120" y="798" width="135" height="5" rx="2.5" fill="#111811" />
+</svg>

@@ -1,0 +1,620 @@
+openapi: 3.1.0
+info:
+  title: MyMeal Calendar API
+  description: |
+    MyMeal 캘린더 API 명세서
+
+    ## 개요
+    캘린더 기능은 사용자의 식사 기록을 날짜별로 조회하고 통계를 제공합니다.
+
+    ## 기능
+    1. 월간 캘린더 - 특정 월의 날짜별 식사 요약과 퀄리티 조회
+    2. 일별 캘린더 - 특정 날짜의 상세 식사 기록과 통계 조회
+  version: 1.0.0
+  contact:
+    name: MyMeal Team
+    email: api@mymeal.com
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: 로컬 개발 환경
+  - url: https://api.mymeal.com/api/v1
+    description: 프로덕션 환경
+
+tags:
+  - name: Calendar
+    description: 캘린더 조회
+
+security:
+  - BearerAuth: []
+
+paths:
+  # ========================================================================
+  # CALENDAR - 캘린더
+  # ========================================================================
+  /calendar/monthly:
+    get:
+      tags: [Calendar]
+      summary: 월간 캘린더 조회
+      description: |
+        특정 월의 식사 기록과 통계를 조회합니다.
+
+        ## 응답 데이터
+        - 날짜별 식사 요약 (Map 형태, 키: "MM-dd" 형식)
+        - 각 날짜의 식사 횟수, 식사 유형, 평균 점수, 퀄리티 등급
+
+        ## UI 표시 가이드
+        - 캘린더 뷰에 날짜별 마커 표시
+        - 퀄리티 색상: 좋음(초록), 보통(노랑), 나쁨(빨강), 없음(회색)
+        - 식사 유형 아이콘 표시 (아침/점심/저녁/간식)
+      operationId: getMonthlyCalendar
+      parameters:
+        - name: year
+          in: query
+          required: true
+          description: 조회할 년도
+          schema:
+            type: integer
+            minimum: 2020
+            maximum: 2100
+          example: 2025
+        - name: month
+          in: query
+          required: true
+          description: 조회할 월 (1-12)
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 12
+          example: 2
+      responses:
+        '200':
+          description: 월간 캘린더 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [success, timestamp, data]
+                properties:
+                  success:
+                    type: boolean
+                  timestamp:
+                    type: string
+                    format: date-time
+                  data:
+                    $ref: '#/components/schemas/CalendarMonthlyResponse'
+              examples:
+                success:
+                  value:
+                    success: true
+                    timestamp: "2025-02-24T12:00:00"
+                    data:
+                      year: 2025
+                      month: 2
+                      days:
+                        "02-01":
+                          mealCount: 3
+                          mealTypes: [BREAKFAST, LUNCH, DINNER]
+                          averageScore: 75.5
+                          quality: GOOD
+                        "02-02":
+                          mealCount: 2
+                          mealTypes: [BREAKFAST, LUNCH]
+                          averageScore: 68.0
+                          quality: NORMAL
+                        "02-03":
+                          mealCount: 1
+                          mealTypes: [DINNER]
+                          averageScore: 45.0
+                          quality: BAD
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /calendar/daily:
+    get:
+      tags: [Calendar]
+      summary: 일별 캘린더 조회
+      description: |
+        특정 날짜의 식사 기록과 상세 통계를 조회합니다.
+
+        ## 응답 데이터
+        - 일자별 통계 (식사 횟수, 평균 점수, 반응 기록률)
+        - 해당 날짜의 전체 식사 리스트 (시간순 정렬)
+        - 각 식사의 AI 분석 결과와 식후 반응 포함
+
+        ## UI 표시 가이드
+        - 타임라인 뷰로 하루 식사 흐름 표시
+        - 통계 카드: 총 식사 N회, 평균 점수 X점, 반응률 Y%
+        - 식사 카드: 사진, 식사명, 시간, 점수, 반응 여부 표시
+      operationId: getDailyCalendar
+      parameters:
+        - name: date
+          in: query
+          required: true
+          description: 조회할 날짜 (ISO 8601 format)
+          schema:
+            type: string
+            format: date
+          example: "2025-02-09"
+      responses:
+        '200':
+          description: 일별 캘린더 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [success, timestamp, data]
+                properties:
+                  success:
+                    type: boolean
+                  timestamp:
+                    type: string
+                    format: date-time
+                  data:
+                    $ref: '#/components/schemas/CalendarDailyResponse'
+              examples:
+                success:
+                  value:
+                    success: true
+                    timestamp: "2025-02-24T12:00:00"
+                    data:
+                      date: "2025-02-09"
+                      statistics:
+                        mealCount: 3
+                        averageScore: 72.3
+                        reactionRate: 66.7
+                      meals:
+                        - id: 1
+                          mealType: BREAKFAST
+                          mealTime: "2025-02-09T08:30:00"
+                          photoUrl: "https://s3.amazonaws.com/bucket/meal1.jpg"
+                          hasReaction: true
+                          createdAt: "2025-02-09T08:30:00"
+                          aiAnalysis:
+                            mealName: "오트밀과 계란후라이"
+                            calories: 450.0
+                            nutrients:
+                              carbohydrates: 50.0
+                              protein: 18.0
+                              fat: 15.0
+                              fiber: 5.0
+                            tags: ["건강식", "한식"]
+                            confidence: 0.92
+                          reaction:
+                            id: 1
+                            mealId: 1
+                            digestionLevel: 4
+                            fullnessLevel: 3
+                            energyLevel: 5
+                            hasHeartburn: false
+                            hasGas: false
+                            hasBloating: false
+                            hasHeadache: false
+                            memo: null
+                            overallScore: 80.0
+                            grade: GOOD
+                            createdAt: "2025-02-09T09:30:00"
+                        - id: 2
+                          mealType: LUNCH
+                          mealTime: "2025-02-09T12:30:00"
+                          photoUrl: "https://s3.amazonaws.com/bucket/meal2.jpg"
+                          hasReaction: true
+                          createdAt: "2025-02-09T12:30:00"
+                          aiAnalysis:
+                            mealName: "돼지김치찌개"
+                            calories: 650.0
+                            nutrients:
+                              carbohydrates: 45.0
+                              protein: 28.0
+                              fat: 22.0
+                              fiber: 3.0
+                            tags: ["매운", "탕", "한식"]
+                            confidence: 0.88
+                          reaction:
+                            id: 2
+                            mealId: 2
+                            digestionLevel: 3
+                            fullnessLevel: 4
+                            energyLevel: 3
+                            hasHeartburn: true
+                            hasGas: false
+                            hasBloating: true
+                            hasHeadache: false
+                            memo: "속이 약간 안좋음"
+                            overallScore: 60.0
+                            grade: NORMAL
+                            createdAt: "2025-02-09T13:30:00"
+                        - id: 3
+                          mealType: SNACK
+                          mealTime: "2025-02-09T15:00:00"
+                          photoUrl: "https://s3.amazonaws.com/bucket/meal3.jpg"
+                          hasReaction: false
+                          createdAt: "2025-02-09T15:00:00"
+                          aiAnalysis:
+                            mealName: "아메리카노"
+                            calories: 15.0
+                            nutrients:
+                              carbohydrates: 0.0
+                              protein: 0.5
+                              fat: 0.0
+                              fiber: 0.0
+                            tags: ["커피", "음료"]
+                            confidence: 0.95
+                          reaction: null
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+# ========================================================================
+# COMPONENTS - 스키마 정의
+# ========================================================================
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: 'JWT 액세스 토큰 (Authorization: Bearer <token>)'
+
+  # -----------------------------------------------------------------------
+  # 공통 스키마 (Common Schemas)
+  # -----------------------------------------------------------------------
+  schemas:
+    # --------------------------------------------------------
+    # 공통 응답 (Common Response)
+    # --------------------------------------------------------
+    SuccessResponse:
+      type: object
+      required: [success, timestamp]
+      properties:
+        success:
+          type: boolean
+          description: 요청 성공 여부
+          example: true
+        timestamp:
+          type: string
+          format: date-time
+          description: 응답 시간
+          example: "2025-02-24T12:00:00"
+
+    # --------------------------------------------------------
+    # 캘린더 요청/응답 스키마 (Calendar Schemas)
+    # --------------------------------------------------------
+    CalendarMonthlyResponse:
+      type: object
+      required: [year, month, days]
+      properties:
+        year:
+          type: integer
+          description: 조회된 년도
+          example: 2025
+        month:
+          type: integer
+          description: 조회된 월 (1-12)
+          example: 2
+        days:
+          type: object
+          description: "날짜별 일일 요약 (키 형식: 'MM-dd')"
+          additionalProperties:
+            $ref: '#/components/schemas/DailySummaryResponse'
+
+    DailySummaryResponse:
+      type: object
+      description: 특정 날짜의 일일 요약 정보
+      required: [mealCount, mealTypes, averageScore, quality]
+      properties:
+        mealCount:
+          type: integer
+          description: 해당 날짜의 총 식사 횟수
+          example: 3
+          minimum: 0
+        mealTypes:
+          type: array
+          description: 섭취한 식사 유형 리스트
+          items:
+            type: string
+            enum: [BREAKFAST, LUNCH, DINNER, SNACK]
+          example: [BREAKFAST, LUNCH, DINNER]
+        averageScore:
+          type: number
+          format: double
+          description: 평균 식후 점수 (0-100, 반응이 없는 식사 제외)
+          nullable: true
+          example: 75.5
+        quality:
+          type: string
+          enum: [GOOD, NORMAL, BAD]
+          description: |
+            일일 퀄리티 등급
+            - GOOD: 평균 점수 70점 이상
+            - NORMAL: 평균 점수 50-69점
+            - BAD: 평균 점수 50점 미만
+          example: GOOD
+
+    CalendarDailyResponse:
+      type: object
+      required: [date, statistics, meals]
+      properties:
+        date:
+          type: string
+          format: date
+          description: 조회된 날짜
+          example: "2025-02-09"
+        statistics:
+          $ref: '#/components/schemas/DailyStatisticsResponse'
+        meals:
+          type: array
+          description: 해당 날짜의 식사 리스트 (식사 시간순 정렬)
+          items:
+            $ref: '#/components/schemas/MealDetailResponse'
+
+    DailyStatisticsResponse:
+      type: object
+      description: 일별 통계
+      required: [mealCount, averageScore, reactionRate]
+      properties:
+        mealCount:
+          type: integer
+          description: 총 식사 횟수
+          example: 3
+          minimum: 0
+        averageScore:
+          type: number
+          format: double
+          description: 평균 식후 점수 (0-100, 반응이 있는 식사만 평균)
+          nullable: true
+          example: 72.3
+        reactionRate:
+          type: number
+          format: double
+          description: 식후 반응 기록률 (0-100)
+          example: 66.7
+
+    # --------------------------------------------------------
+    # 식사 관련 스키마 (Meal Schemas)
+    # --------------------------------------------------------
+    MealDetailResponse:
+      type: object
+      description: 식사 상세 정보 (AI 분석 + 식후 반응 포함)
+      required: [id, mealType, mealTime, photoUrl, hasReaction, createdAt]
+      properties:
+        id:
+          type: integer
+          description: 식사 ID
+          example: 1
+        mealType:
+          type: string
+          enum: [BREAKFAST, LUNCH, DINNER, SNACK]
+          description: 식사 유형
+          example: LUNCH
+        mealTime:
+          type: string
+          format: date-time
+          description: 식사 시간
+          example: "2025-02-09T12:30:00"
+        photoUrl:
+          type: string
+          format: uri
+          description: 식사 사진 URL
+          example: "https://s3.amazonaws.com/bucket/meal1.jpg"
+        hasReaction:
+          type: boolean
+          description: 식후 반응 기록 여부
+          example: true
+        createdAt:
+          type: string
+          format: date-time
+          description: 식사 생성 시간
+          example: "2025-02-09T12:30:00"
+        aiAnalysis:
+          $ref: '#/components/schemas/AIAnalysisResponse'
+        reaction:
+          $ref: '#/components/schemas/ReactionResponse'
+
+    AIAnalysisResponse:
+      type: object
+      description: AI 음식 분석 결과 (백그라운드 비동기 처리)
+      required: [mealName, calories, nutrients, confidence]
+      properties:
+        mealName:
+          type: string
+          description: AI가 추출한 식사명
+          example: "돼지김치찌개"
+        calories:
+          type: number
+          format: double
+          description: 추정 칼로리 (kcal)
+          example: 650.0
+        nutrients:
+          $ref: '#/components/schemas/NutrientsResponse'
+        tags:
+          type: array
+          description: 추출된 음식 태그
+          items:
+            type: string
+          example: ["매운", "탕", "한식"]
+        confidence:
+          type: number
+          format: double
+          description: AI 분석 신뢰도 (0-1)
+          example: 0.88
+          minimum: 0.0
+          maximum: 1.0
+
+    NutrientsResponse:
+      type: object
+      description: 영양소 정보
+      required: [carbohydrates, protein, fat, fiber]
+      properties:
+        carbohydrates:
+          type: number
+          format: double
+          description: 탄수화물 (g)
+          example: 45.0
+        protein:
+          type: number
+          format: double
+          description: 단백질 (g)
+          example: 28.0
+        fat:
+          type: number
+          format: double
+          description: 지방 (g)
+          example: 22.0
+        fiber:
+          type: number
+          format: double
+          description: 식이섬유 (g)
+          example: 3.0
+
+    ReactionResponse:
+      type: object
+      description: 식후 반응 정보
+      required:
+        - id
+        - mealId
+        - digestionLevel
+        - fullnessLevel
+        - energyLevel
+        - hasHeartburn
+        - hasGas
+        - hasBloating
+        - hasHeadache
+        - overallScore
+        - grade
+        - createdAt
+      properties:
+        id:
+          type: integer
+          description: 반응 ID
+          example: 1
+        mealId:
+          type: integer
+          description: 연결된 식사 ID
+          example: 1
+        digestionLevel:
+          type: integer
+          description: "소화 상태 (1: 불편함 ~ 5: 편안함)"
+          example: 4
+          minimum: 1
+          maximum: 5
+        fullnessLevel:
+          type: integer
+          description: "포만감 (1: 여전히 배고픔 ~ 5: 너무 부름)"
+          example: 3
+          minimum: 1
+          maximum: 5
+        energyLevel:
+          type: integer
+          description: "에너지 레벨 (1: 나른함 ~ 5: 에너지 넘침)"
+          example: 5
+          minimum: 1
+          maximum: 5
+        hasHeartburn:
+          type: boolean
+          description: 속쓰림 여부
+          example: false
+        hasGas:
+          type: boolean
+          description: 가스 차 여부
+          example: false
+        hasBloating:
+          type: boolean
+          description: 배부팅 여부
+          example: false
+        hasHeadache:
+          type: boolean
+          description: 두통 여부
+          example: false
+        memo:
+          type: string
+          description: 추가 메모
+          nullable: true
+          example: "속이 약간 안좋음"
+        overallScore:
+          type: number
+          format: double
+          description: 종합 식후 점수 (0-100)
+          example: 80.0
+          minimum: 0.0
+          maximum: 100.0
+        grade:
+          type: string
+          enum: [GOOD, NORMAL, BAD]
+          description: |
+            등급
+            - GOOD: 종합 점수 70점 이상
+            - NORMAL: 종합 점수 50-69점
+            - BAD: 종합 점수 50점 미만
+          example: GOOD
+        createdAt:
+          type: string
+          format: date-time
+          description: 반응 기록 시간
+          example: "2025-02-09T09:30:00"
+
+  # -----------------------------------------------------------------------
+  # 공통 에러 응답 (Error Responses)
+  # -----------------------------------------------------------------------
+  responses:
+    BadRequest:
+      description: 잘못된 요청 (파라미터 유효성 검증 실패)
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [success, error, timestamp]
+            properties:
+              success:
+                type: boolean
+                example: false
+              error:
+                type: object
+                required: [code, message]
+                properties:
+                  code:
+                    type: string
+                    example: VALIDATION_ERROR
+                  message:
+                    type: string
+                    example: "year must be between 2020 and 2100"
+                  details:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        field:
+                          type: string
+                        message:
+                          type: string
+              timestamp:
+                type: string
+                format: date-time
+
+    Unauthorized:
+      description: 인증 실패 (유효하지 않은 토큰)
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [success, error, timestamp]
+            properties:
+              success:
+                type: boolean
+                example: false
+              error:
+                type: object
+                required: [code, message]
+                properties:
+                  code:
+                    type: string
+                    example: INVALID_TOKEN
+                  message:
+                    type: string
+                    example: "Invalid or expired token"
+              timestamp:
+                type: string
+                format: date-time

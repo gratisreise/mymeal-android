@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="375" height="812" viewBox="0 0 375 812" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0df214;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0bc911;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="375" height="812" fill="#f5f8f6" />
+
+  <!-- Status Bar -->
+  <rect y="0" width="375" height="44" fill="#f5f8f6" />
+  <text x="30" y="28" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="14" font-weight="600" fill="#111811">9:41</text>
+  <circle cx="330" cy="22" r="3" fill="#111811" />
+  <rect x="338" y="16" width="18" height="10" rx="2" stroke="#111811" stroke-width="1.5" fill="none" />
+  <rect x="340" y="18" width="14" height="6" rx="1" fill="#111811" />
+
+  <!-- Header -->
+  <g transform="translate(0, 60)">
+    <!-- Profile Icon -->
+    <circle cx="45" cy="22" r="20" fill="#e5e7eb" />
+    <circle cx="45" cy="18" r="8" fill="#608a62" />
+    <path d="M35 32 Q45 24 55 32" stroke="#608a62" stroke-width="2" fill="none" />
+
+    <!-- Date Picker -->
+    <g transform="translate(187.5, 22)">
+      <path d="M-60 5 L-50 0 L-50 10 Z" fill="#608a62" />
+      <text x="0" y="5" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="16" font-weight="600" fill="#111811">2월 12일 수</text>
+      <path d="M50 5 L60 0 L60 10 Z" fill="#608a62" />
+    </g>
+
+    <!-- Notification Icon -->
+    <circle cx="330" cy="22" r="18" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+    <path d="M330 14 L330 20 L336 20" stroke="#608a62" stroke-width="1.5" fill="none" />
+    <circle cx="336" cy="14" r="6" fill="#FF5252" stroke="#ffffff" stroke-width="2" />
+  </g>
+
+  <!-- Today's Meal Summary Card -->
+  <g transform="translate(20, 110)">
+    <rect width="335" height="90" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+    <text x="20" y="30" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="14" font-weight="600" fill="#608a62">오늘의 식단</text>
+
+    <!-- Meal Type Icons -->
+    <g transform="translate(20, 50)">
+      <!-- Breakfast - Completed -->
+      <circle cx="25" cy="20" r="20" fill="#FFB74D" />
+      <text x="25" y="27" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="16">🌅</text>
+      <circle cx="40" cy="8" r="8" fill="#0df214" />
+      <path d="M36 8 L39 11 L44 5" stroke="#ffffff" stroke-width="1.5" fill="none" />
+
+      <!-- Lunch - Completed -->
+      <g transform="translate(75, 0)">
+        <circle cx="25" cy="20" r="20" fill="#4DB6AC" />
+        <text x="25" y="27" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="16">☀️</text>
+        <circle cx="40" cy="8" r="8" fill="#0df214" />
+        <path d="M36 8 L39 11 L44 5" stroke="#ffffff" stroke-width="1.5" fill="none" />
+      </g>
+
+      <!-- Dinner - Pending -->
+      <g transform="translate(150, 0)">
+        <circle cx="25" cy="20" r="20" fill="#e5e7eb" />
+        <text x="25" y="27" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="16" opacity="0.5">🌙</text>
+      </g>
+
+      <!-- Snack - Pending -->
+      <g transform="translate(225, 0)">
+        <circle cx="25" cy="20" r="20" fill="#e5e7eb" />
+        <text x="25" y="27" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="16" opacity="0.5">🍪</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Timeline Section -->
+  <text x="30" y="235" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="18" font-weight="700" fill="#111811">식사 기록</text>
+
+  <!-- Meal Card 1 - Lunch -->
+  <g transform="translate(20, 255)">
+    <rect width="335" height="100" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <!-- Photo Thumbnail -->
+    <rect x="15" y="15" width="70" height="70" rx="12" fill="#4DB6AC" opacity="0.2" />
+    <text x="50" y="55" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="28">🍱</text>
+
+    <!-- Meal Info -->
+    <g transform="translate(100, 35)">
+      <rect x="0" y="-10" width="50" height="22" rx="6" fill="#4DB6AC" opacity="0.2" />
+      <text x="25" y="5" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="12" font-weight="600" fill="#4DB6AC">점심</text>
+      <text x="0" y="28" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="16" font-weight="600" fill="#111811">돈까스 정식</text>
+      <text x="0" y="50" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="14" fill="#608a62">12:30</text>
+    </g>
+
+    <!-- Reaction Emoji -->
+    <g transform="translate(290, 50)">
+      <circle cx="20" cy="15" r="18" fill="#FFC107" opacity="0.2" />
+      <text x="20" y="21" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="16">😌</text>
+    </g>
+  </g>
+
+  <!-- Meal Card 2 - Breakfast -->
+  <g transform="translate(20, 370)">
+    <rect width="335" height="100" rx="16" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <!-- Photo Thumbnail -->
+    <rect x="15" y="15" width="70" height="70" rx="12" fill="#FFB74D" opacity="0.2" />
+    <text x="50" y="55" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="28">🥣</text>
+
+    <!-- Meal Info -->
+    <g transform="translate(100, 35)">
+      <rect x="0" y="-10" width="50" height="22" rx="6" fill="#FFB74D" opacity="0.2" />
+      <text x="25" y="5" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="12" font-weight="600" fill="#FFB74D">아침</text>
+      <text x="0" y="28" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="16" font-weight="600" fill="#111811">오트밀와 계란후라이</text>
+      <text x="0" y="50" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="14" fill="#608a62">08:15</text>
+    </g>
+
+    <!-- Reaction Emoji -->
+    <g transform="translate(290, 50)">
+      <circle cx="20" cy="15" r="18" fill="#0df214" opacity="0.2" />
+      <text x="20" y="21" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="16">😊</text>
+    </g>
+  </g>
+
+  <!-- Empty State Hint -->
+  <g transform="translate(187.5, 500)">
+    <rect x="-100" y="-20" width="200" height="40" rx="20" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4 4" />
+    <text x="0" y="5" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="14" fill="#608a62">저녁 식사를 기록해볼까요?</text>
+  </g>
+
+  <!-- Bottom Navigation -->
+  <g transform="translate(0, 712)">
+    <rect width="375" height="100" fill="#ffffff" stroke="#e5e7eb" stroke-width="1" />
+
+    <!-- Home - Active -->
+    <g transform="translate(40, 25)">
+      <circle cx="20" cy="15" r="18" fill="#0df214" opacity="0.15" />
+      <text x="20" y="21" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="18">🏠</text>
+      <text x="20" y="45" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="10" font-weight="600" fill="#0bc911">홈</text>
+    </g>
+
+    <!-- Insights -->
+    <g transform="translate(110, 25)">
+      <text x="20" y="21" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="18" opacity="0.5">💡</text>
+      <text x="20" y="45" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="10" fill="#608a62">인사이트</text>
+    </g>
+
+    <!-- FAB Add Button -->
+    <g transform="translate(187.5, -20)">
+      <circle cx="0" cy="0" r="32" fill="url(#primaryGradient)" />
+      <line x1="-12" y1="0" x2="12" y2="0" stroke="#ffffff" stroke-width="3" />
+      <line x1="0" y1="-12" x2="0" y2="12" stroke="#ffffff" stroke-width="3" />
+      <circle cx="0" cy="0" r="38" stroke="#0df214" stroke-width="4" opacity="0.3" />
+    </g>
+
+    <!-- Journal -->
+    <g transform="translate(220, 25)">
+      <text x="20" y="21" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="18" opacity="0.5">📖</text>
+      <text x="20" y="45" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="10" fill="#608a62">저널</text>
+    </g>
+
+    <!-- Profile -->
+    <g transform="translate(290, 25)">
+      <text x="20" y="21" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="18" opacity="0.5">👤</text>
+      <text x="20" y="45" text-anchor="middle" font-family="Apple SD Gothic Neo, SF Pro Display, sans-serif" font-size="10" fill="#608a62">프로필</text>
+    </g>
+  </g>
+
+  <!-- Home Indicator -->
+  <rect x="120" y="798" width="135" height="5" rx="2.5" fill="#111811" />
+</svg>
